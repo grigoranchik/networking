@@ -6,6 +6,12 @@ Install Chrome extension: https://chrome.google.com/webstore/detail/custom-javas
 
 ```
 
+// Here You can type your custom JavaScript...
+
+function logInfo(message){
+    console.info("sc-cjs: " + message);
+}
+
 var lastSongUrl = null;
 
 setInterval(function(){
@@ -20,7 +26,7 @@ setInterval(function(){
     var songURL = 'https://soundcloud.com' + songUri;
     
     if(lastSongUrl != songURL){
-        console.info("ignition: " + songTitle + " -- " + songURL);
+        logInfo(songTitle + " -- " + songURL);
         lastSongUrl = songURL;
     }
 }, 100);
@@ -36,14 +42,7 @@ var open = window.XMLHttpRequest.prototype.open,
 function openReplacement(method, url, async, user, password) {
     var syncMode = async !== false ? 'async' : 'sync';
     if(url.indexOf("m3u") > -1){
-        console.info(
-            "ignition: "   +
-            //syncMode +
-            //' HTTP request : ' +
-            //method +
-            ' ' +
-            url
-        );
+       logInfo(url);
     }
     return open.apply(this, arguments);
 }
@@ -68,5 +67,8 @@ function onReadyStateChangeReplacement() {
 
 window.XMLHttpRequest.prototype.open = openReplacement;
 window.XMLHttpRequest.prototype.send = sendReplacement;
+
+
+
 
 ```
