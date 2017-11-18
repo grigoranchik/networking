@@ -1,5 +1,8 @@
 
-Install Chrome extension
+Install Chrome extension: https://chrome.google.com/webstore/detail/custom-javascript-for-web/poakhlngfciodnhlhhgnaaelnpjljija?hl=en
+
+
+
 
 ```
 
