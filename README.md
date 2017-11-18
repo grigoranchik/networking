@@ -8,13 +8,15 @@
 
 ```
 
-// Here You can type your custom JavaScript...
 
 function logInfo(message){
     console.info("sc-cjs: " + message);
 }
 
 var lastSongUrl = null;
+var lastSongTitle = null;
+var lastSongPlaylistUrl = null;
+
 
 setInterval(function(){
   //debugger;
@@ -28,12 +30,11 @@ setInterval(function(){
     var songURL = 'https://soundcloud.com' + songUri;
     
     if(lastSongUrl != songURL){
-        logInfo(songTitle + " -- " + songURL);
+        //logInfo(songTitle + " -- " + songURL);
         lastSongUrl = songURL;
+	lastSongTitle = songTitle;
     }
-}, 100);
-
-
+}, 50);
 
 
 
@@ -43,8 +44,9 @@ var open = window.XMLHttpRequest.prototype.open,
 
 function openReplacement(method, url, async, user, password) {
     var syncMode = async !== false ? 'async' : 'sync';
-    if(url.indexOf("m3u") > -1){
-       logInfo(url);
+    if(url.indexOf("m3u") > -1) {
+	lastSongPlaylistUrl = url; 
+        logInfo("[[[" + lastSongTitle + "]]] " + lastSongUrl + " (((" + lastSongPlaylistUrl + ")))");
     }
     return open.apply(this, arguments);
 }
