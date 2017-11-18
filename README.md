@@ -1,4 +1,7 @@
-// Here You can type your custom JavaScript...
+
+Install Chrome extension
+
+```
 
 var lastSongUrl = null;
 
@@ -62,3 +65,5 @@ function onReadyStateChangeReplacement() {
 
 window.XMLHttpRequest.prototype.open = openReplacement;
 window.XMLHttpRequest.prototype.send = sendReplacement;
+
+```
