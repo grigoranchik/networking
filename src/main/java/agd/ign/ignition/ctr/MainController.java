@@ -36,12 +36,17 @@ public class MainController {
     @ResponseBody
     public NewSongResponseDto sendSong(@RequestBody NewSongDto dto) throws IOException {
 
+        System.out.println(dto.getScCjsSongTitle());
+
         String url = dto.getScCjsSongPlayListUrl();
         try {
 
             String songId = PlaylistGetter.getSongId(url);
 
             Path playlistFilePath = PlaylistGetter.getSongPlaylistPath(songId);
+            if (playlistFilePath.toFile().exists()) {
+                throw new RuntimeException("Already indexed: " + songId);
+            }
             PlaylistGetter.downloadPlayList(url, playlistFilePath);
 
             List<String> partUrls = PlaylistReader.getPartUrls(playlistFilePath);
@@ -59,6 +64,8 @@ public class MainController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        System.out.println("");
         return new NewSongResponseDto();
     }
 
