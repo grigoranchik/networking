@@ -1,10 +1,10 @@
 package agd.ign.ignition;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -16,6 +16,7 @@ public class PlaylistGetter {
 
     private static final String STORAGE_PATH = "down";
     private static final String PLAYLIST_FILE_NAME = "playlist.m3u8";
+    private static final String META_FILE_NAME = "metadata.json";
 
     private static final String PL_FILE_NAME_PREFIX = "https://cf-hls-media.sndcdn.com/playlist/";
     private static final String PL_FILE_NAME_POSTFIX = "/playlist.m3u8?Policy";
@@ -48,6 +49,10 @@ public class PlaylistGetter {
         return new File(getSongBasePath(songId) + File.separator + PLAYLIST_FILE_NAME).toPath();
     }
 
+    public static Path getSongMetadataPath(String songId) {
+        return new File(getSongBasePath(songId) + File.separator + META_FILE_NAME).toPath();
+    }
+
     public static String getMp3FileName(int i) {
         return "" + i + ".mp3";
     }
@@ -68,6 +73,12 @@ public class PlaylistGetter {
         try (InputStream in = SoundcloudAccessor.getInputStream(url)) {
             Files.copy(in, mp3Path, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    public static void saveMetadata(Path metaPath, NewSongDto dto) throws FileNotFoundException, JsonProcessingException {
+        PrintWriter out = new PrintWriter(metaPath.toFile());
+        out.println(new ObjectMapper().writeValueAsString(dto));
+        out.close();
     }
 }
 

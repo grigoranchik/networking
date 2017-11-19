@@ -48,6 +48,9 @@ public class MainController {
                 i++;
             }
 
+            Path metaPath = PlaylistGetter.getSongMetadataPath(songId);
+            PlaylistGetter.saveMetadata(metaPath, dto);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
