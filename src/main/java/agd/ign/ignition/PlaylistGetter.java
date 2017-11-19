@@ -23,15 +23,8 @@ public class PlaylistGetter {
     /**
      * https://cf-hls-media.sndcdn.com/playlist/7BSlpZTiK3pe.128.mp3/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLWhscy1tZWRpYS5zbmRjZG4uY29tL3BsYXlsaXN0LzdCU2xwWlRpSzNwZS4xMjgubXAzL3BsYXlsaXN0Lm0zdTgiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE1MTExMDQ1MTN9fX1dfQ__&Signature=PgbJpqIyCK2G08qV4aWH7PBl3fpnnh6RjL6h4FE6LbOFxbNQANJisYhr5KnLiWRx20CoyonMiTGrNDCtE~sCASixafs~MoqeEhM60rfHNOCKw86NR0hyXBwqZUr5eVolxZny8SYgebnR-~QMQ8uxWtDkG-2LprDW8EwZwHKevOIqHHel~8oEiEBukmTSYGqH6cZLbmXztTJ82wej7bz6m5K1ntMReMJHfnoMSZbas5K3u1vx32e3x3fgN~xN3a4GPzeWlO76w4dLvQxc5vAa65c2Uour1Nbnu3y93~oyWjm-1R~KOCl53A9Ykt-N8BBx3RXwSl4YVA~Q2FKRaDHsGw__&Key-Pair-Id=APKAJAGZ7VMH2PFPW6UQ
      */
-    public static Path playList(String url) throws IOException {
+    public static void downloadPlayList(String url, Path playlistFilePath) throws IOException {
 
-        String songId = getFileName(url);
-
-        String dir = getSongStorePath(songId);
-
-        new File(dir).mkdir();
-
-        Path playlistFilePath = getSongPlaylistPath(dir);
         String playListFilePathStr = playlistFilePath.toAbsolutePath().toString();
 
         System.out.println("Saving playlist: " + playListFilePathStr);
@@ -39,20 +32,42 @@ public class PlaylistGetter {
         try (InputStream in = SoundcloudAccessor.getInputStream(url)) {
             Files.copy(in, playlistFilePath, StandardCopyOption.REPLACE_EXISTING);
         }
-
-        return playlistFilePath;
     }
 
-    protected static String getFileName(String url) {
+    public static String getSongId(String url) {
         return StringUtils.substringBetween(url, PL_FILE_NAME_PREFIX, PL_FILE_NAME_POSTFIX);
     }
 
-    private static String getSongStorePath(String songId) {
-        return new File(STORAGE_PATH + File.separator + songId).toPath().toAbsolutePath().toString();
+    public static String getSongBasePath(String songId) {
+        String rv = new File(STORAGE_PATH + File.separator + songId).toPath().toAbsolutePath().toString();
+        new File(rv).mkdir();
+        return rv;
     }
 
-    private static Path getSongPlaylistPath(String directory) {
-        return new File(directory + File.separator + PLAYLIST_FILE_NAME).toPath();
+    public static Path getSongPlaylistPath(String songId) {
+        return new File(getSongBasePath(songId) + File.separator + PLAYLIST_FILE_NAME).toPath();
+    }
+
+    public static String getMp3FileName(int i) {
+        return "" + i + ".mp3";
+    }
+
+    public static Path getSongMp3Path(int i, String songId) {
+        return new File(getSongBasePath(songId) + File.separator + getMp3FileName(i)).toPath();
+    }
+
+    /**
+     * https://cf-hls-media.sndcdn.com/media/0/31762/EniKZcU3hSCh.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLWhscy1tZWRpYS5zbmRjZG4uY29tL21lZGlhLyovKi9FbmlLWmNVM2hTQ2guMTI4Lm1wMyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTUxMTEwNjYwM319fV19&Signature=i7q~eQjY2IOi7dhC-GZR8cx-Em2o~kQBs7afM28UaxKGbHTGPcn4RWy5tjEgjfh6FbLoJ9m6s20jeTSZUnOQohKwGt8IDcAt7E15UQyjlxjht8rD9CuTbRjetAbYHUfv1JQRxZSimcbHU48QJh2dWa-EB1TFQPWAEDPCv580PXFokfrK-O4GSUctKMn4EjgqPKrzyKhWktoIG6zFnJv9rhWZc8oHLQ3iNOVC33UX8h8vkvxdAoFtC0SA~vNbSKx-orbNgMNrlyMuHQw2Jk3P4nJhSezG0h3JNQ6JakGN1QkTlC91q~z-exsr14TiJ2YlfmukWT8a4ENAVFgX6Bellw__&Key-Pair-Id=APKAJAGZ7VMH2PFPW6UQ
+     */
+    public static void downloadMp3(Path mp3Path, String url) throws IOException {
+
+        String playListFilePathStr = mp3Path.toAbsolutePath().toString();
+
+        System.out.println("Saving mp3: " + playListFilePathStr);
+
+        try (InputStream in = SoundcloudAccessor.getInputStream(url)) {
+            Files.copy(in, mp3Path, StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 }
 

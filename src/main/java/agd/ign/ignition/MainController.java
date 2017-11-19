@@ -30,13 +30,24 @@ public class MainController {
     @RequestMapping(value = "/rest/song/new", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public NewSongResponseDto sendSong(@RequestBody NewSongDto dto) throws IOException {
-        dto.getScCjsSongTitle();
-        System.out.println(dto);
 
+        String url = dto.getScCjsSongPlayListUrl();
         try {
-            Path playListPath =  PlaylistGetter.playList(dto.getScCjsSongPlayListUrl());
-            List<String>  partUrls = PlaylistReader.getPartUrls(playListPath);
-            System.out.println(partUrls);
+
+            String songId = PlaylistGetter.getSongId(url);
+
+            Path playlistFilePath = PlaylistGetter.getSongPlaylistPath(songId);
+            PlaylistGetter.downloadPlayList(url, playlistFilePath);
+
+            List<String> partUrls = PlaylistReader.getPartUrls(playlistFilePath);
+
+            int i = 0;
+            for (String partUrl : partUrls) {
+                Path mp3Path = PlaylistGetter.getSongMp3Path(i, songId);
+                PlaylistGetter.downloadMp3(mp3Path, partUrl);
+                i++;
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

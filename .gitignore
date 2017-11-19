@@ -26,3 +26,4 @@ nbdist/
 maven-wrapper.jar
 maven-wrapper.properties
 *.m3u8
+*.mp3
