@@ -14,6 +14,8 @@
 function sendDataToServer(sTitle, sUrl, sPlayListUrl){
     
     var requestUrl = "https://localhost/ignition/rest/song/new";
+    // var requestUrl = "https://192.168.0.103/ignition/rest/song/new";
+
 
     var callAttachedXhr = $.ajax({
         type: 'POST',

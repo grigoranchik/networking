@@ -5,7 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ *
+ * http://localhost/ignition/rest/about
+ *
  * https://localhost/ignition/rest/about
+ * https://192.168.0.103/ignition/rest/about
  *
  * @author aillusions
  */
