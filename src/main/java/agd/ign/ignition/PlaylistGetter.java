@@ -3,16 +3,14 @@ package agd.ign.ignition;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.zip.GZIPInputStream;
 
 /**
- *
- *
  * @author aillusions
  */
 public class PlaylistGetter {
@@ -33,18 +31,25 @@ public class PlaylistGetter {
         // connection.addRequestProperty("", "");
 
         //connection.setDoOutput(true); // Triggers POST.
-        //connection.setRequestProperty("Accept-Charset", "UTF-8");
+        // connection.setRequestProperty("Accept-Charset", "UTF-8");
         // connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + "UTF-8");
 
         //FileUtils.copyURLToFile(connection, File);
-
 
 
         Path targetPath = new File("down" + File.separator + "play.m3u8").toPath();
 
         System.out.println("Saving playlist: " + targetPath.toAbsolutePath().toString());
 
-        try (InputStream in = connection.getInputStream()) {
+
+        InputStream is;
+        if ("gzip".equals(connection.getContentEncoding())) {
+            is = new GZIPInputStream(connection.getInputStream());
+        } else {
+            is = connection.getInputStream();
+        }
+
+        try (InputStream in = is) {
             Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
         }
 
