@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  * http://localhost/ignition/rest/about
@@ -32,7 +34,9 @@ public class MainController {
         System.out.println(dto);
 
         try {
-            PlaylistGetter.playList(dto.getScCjsSongPlayListUrl());
+            Path playListPath =  PlaylistGetter.playList(dto.getScCjsSongPlayListUrl());
+            List<String>  partUrls = PlaylistReader.getPartUrls(playListPath);
+            System.out.println(partUrls);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
