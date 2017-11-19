@@ -1,5 +1,6 @@
 package agd.ign.ignition;
 
+import agd.ign.ignition.dto.NewSongDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import java.nio.file.StandardCopyOption;
 public class PlaylistGetter {
 
     private static final String STORAGE_PATH = "down";
+
     private static final String PLAYLIST_FILE_NAME = "playlist.m3u8";
     private static final String META_FILE_NAME = "metadata.json";
 

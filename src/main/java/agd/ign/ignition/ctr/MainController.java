@@ -1,5 +1,10 @@
-package agd.ign.ignition;
+package agd.ign.ignition.ctr;
 
+import agd.ign.ignition.PlaylistGetter;
+import agd.ign.ignition.PlaylistReader;
+import agd.ign.ignition.dto.AboutIgnitionDto;
+import agd.ign.ignition.dto.NewSongDto;
+import agd.ign.ignition.dto.NewSongResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
