@@ -9,6 +9,50 @@
 ```
 
 
+
+
+function sendDataToServer(sTitle, sUrl, sPlayListUrl){
+    
+    var requestUrl = "https://localhost/ignition/rest/song/new";
+
+    var callAttachedXhr = $.ajax({
+        type: 'POST',
+        url: requestUrl,
+        async: true,
+        data: JSON.stringify({
+            scCjsSongTitle: sTitle,
+            scCjsSongUrl: sUrl,
+            scCjsSongPlayListUrl: sPlayListUrl,
+        }),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        beforeSend: function () {
+            
+        },
+        success: function (AbstractResponse) {
+            logInfo("Sending succeed");
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            logInfo("Sending filed...");
+        },
+        complete: function () {
+            
+        },
+        contentType: "application/json; charset=utf-8",
+        cache: false,
+        dataType: 'json',
+        timeout: 1000
+    });
+}
+
+function onNewSondPlaying(sngTitle, sngUrl, sngPlayListUrl) {
+    logInfo("[[[" + sngTitle + "]]] " + sngUrl + " (((" + sngPlayListUrl + ")))");
+    
+    sendDataToServer(sngTitle, sngUrl, sngPlayListUrl);
+}
+
 function logInfo(message){
     console.info("sc-cjs: " + message);
 }
@@ -45,8 +89,8 @@ var open = window.XMLHttpRequest.prototype.open,
 function openReplacement(method, url, async, user, password) {
     var syncMode = async !== false ? 'async' : 'sync';
     if(url.indexOf("m3u") > -1) {
-	lastSongPlaylistUrl = url; 
-        logInfo("[[[" + lastSongTitle + "]]] " + lastSongUrl + " (((" + lastSongPlaylistUrl + ")))");
+	    lastSongPlaylistUrl = url; 
+        onNewSondPlaying(lastSongTitle, lastSongUrl, lastSongPlaylistUrl);
     }
     return open.apply(this, arguments);
 }
