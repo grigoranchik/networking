@@ -4,10 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 /**
- *
  * http://localhost/ignition/rest/about
- *
+ * <p>
  * https://localhost/ignition/rest/about
  * https://192.168.0.103/ignition/rest/about
  *
@@ -26,9 +27,15 @@ public class MainController {
 
     @RequestMapping(value = "/rest/song/new", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public NewSongResponseDto sendSong(@RequestBody NewSongDto dto) {
+    public NewSongResponseDto sendSong(@RequestBody NewSongDto dto) throws IOException {
         dto.getScCjsSongTitle();
         System.out.println(dto);
+
+        try {
+            PlaylistGetter.playList(dto.getScCjsSongPlayListUrl());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return new NewSongResponseDto();
     }
 
