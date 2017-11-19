@@ -68,11 +68,6 @@ public class PlaylistGetter {
      * https://cf-hls-media.sndcdn.com/media/0/31762/EniKZcU3hSCh.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLWhscy1tZWRpYS5zbmRjZG4uY29tL21lZGlhLyovKi9FbmlLWmNVM2hTQ2guMTI4Lm1wMyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTUxMTEwNjYwM319fV19&Signature=i7q~eQjY2IOi7dhC-GZR8cx-Em2o~kQBs7afM28UaxKGbHTGPcn4RWy5tjEgjfh6FbLoJ9m6s20jeTSZUnOQohKwGt8IDcAt7E15UQyjlxjht8rD9CuTbRjetAbYHUfv1JQRxZSimcbHU48QJh2dWa-EB1TFQPWAEDPCv580PXFokfrK-O4GSUctKMn4EjgqPKrzyKhWktoIG6zFnJv9rhWZc8oHLQ3iNOVC33UX8h8vkvxdAoFtC0SA~vNbSKx-orbNgMNrlyMuHQw2Jk3P4nJhSezG0h3JNQ6JakGN1QkTlC91q~z-exsr14TiJ2YlfmukWT8a4ENAVFgX6Bellw__&Key-Pair-Id=APKAJAGZ7VMH2PFPW6UQ
      */
     public static void downloadMp3(Path mp3Path, String url) throws IOException {
-
-        String playListFilePathStr = mp3Path.toAbsolutePath().toString();
-
-        System.out.println("Saving mp3: " + playListFilePathStr);
-
         try (InputStream in = SoundcloudAccessor.getInputStream(url)) {
             Files.copy(in, mp3Path, StandardCopyOption.REPLACE_EXISTING);
         }

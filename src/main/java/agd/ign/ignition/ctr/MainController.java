@@ -54,6 +54,9 @@ public class MainController {
             int i = 0;
             for (String partUrl : partUrls) {
                 Path mp3Path = PlaylistGetter.getSongMp3Path(i, songId);
+                String playListFilePathStr = mp3Path.toAbsolutePath().toString();
+                System.out.println("Saving mp3: " + playListFilePathStr + " (" + (i + 1) + " of " + partUrls.size() + ")");
+
                 PlaylistGetter.downloadMp3(mp3Path, partUrl);
                 i++;
             }
