@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController()
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/ignition/rest")
+@RequestMapping("/rest")
 public class MainController {
 
     // http://localhost:8090/ignition/rest/about

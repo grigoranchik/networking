@@ -13,7 +13,7 @@ public class WelcomeController {
     // https://localhost/ignition
     // https://192.168.0.103/ignition
     // https://zalizniak.com/ignition
-    @RequestMapping("/ignition")
+    @RequestMapping("/")
     public String home() {
         return "index.html";
     }
