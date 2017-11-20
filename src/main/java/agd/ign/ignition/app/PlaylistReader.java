@@ -1,4 +1,4 @@
-package agd.ign.ignition;
+package agd.ign.ignition.app;
 
 import org.apache.commons.lang3.StringUtils;
 

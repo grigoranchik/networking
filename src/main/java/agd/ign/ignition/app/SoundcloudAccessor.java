@@ -1,4 +1,4 @@
-package agd.ign.ignition;
+package agd.ign.ignition.app;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,7 +1,7 @@
 package agd.ign.ignition.ctr;
 
-import agd.ign.ignition.PlaylistGetter;
-import agd.ign.ignition.PlaylistReader;
+import agd.ign.ignition.app.PlaylistGetter;
+import agd.ign.ignition.app.PlaylistReader;
 import agd.ign.ignition.dto.AboutIgnitionDto;
 import agd.ign.ignition.dto.NewSongDto;
 import agd.ign.ignition.dto.NewSongResponseDto;
@@ -14,25 +14,24 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * http://localhost/ignition/rest/about
- * <p>
- * https://localhost/ignition/rest/about
- * https://192.168.0.103/ignition/rest/about
- *
  * @author aillusions
  */
 @RestController()
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/ignition")
+@RequestMapping("/ignition/rest")
 public class MainController {
 
-    @RequestMapping(value = "/rest/about", method = RequestMethod.GET, produces = "application/json")
+    // http://localhost:8090/ignition/rest/about
+    // https://localhost/ignition/rest/about
+    // https://192.168.0.103/ignition/rest/about
+    // https://zalizniak.com/ignition/rest/about
+    @RequestMapping(value = "/about", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public AboutIgnitionDto about() {
         return new AboutIgnitionDto();
     }
 
-    @RequestMapping(value = "/rest/song/new", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @RequestMapping(value = "/song/new", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public NewSongResponseDto sendSong(@RequestBody NewSongDto dto) throws IOException {
 

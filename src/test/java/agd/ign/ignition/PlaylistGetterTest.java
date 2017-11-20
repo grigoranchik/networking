@@ -1,5 +1,6 @@
 package agd.ign.ignition;
 
+import agd.ign.ignition.app.PlaylistGetter;
 import junit.framework.TestCase;
 
 /**

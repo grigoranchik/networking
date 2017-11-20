@@ -1,4 +1,4 @@
-package agd.ign.ignition;
+package agd.ign.ignition.app;
 
 import agd.ign.ignition.dto.NewSongDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
