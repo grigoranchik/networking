@@ -12,9 +12,11 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
 
     vm.onPlaySelectedSong = function (song) {
         var songId = song.ignitionAvailSongId;
-        ignitionFrontDas.getSongFragment(songId).then(function (bytes) {
+        /*ignitionFrontDas.getSongFragment(songId).then(function (bytes) {
             console.info("Downloaded: " + bytes.length + " for song " + songId);
-        });
+        });*/
+
+        ignitionFrontDas.playSongFragment(songId);
     };
 
     //
