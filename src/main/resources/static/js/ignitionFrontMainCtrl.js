@@ -17,6 +17,12 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
             var mappedAboutInfo = ignitionFrontDas.mapAboutIgnitionDto(AboutIgnitionDto);
             console.info("Server version: " + mappedAboutInfo.ignitionVersion);
         });
+
+
+        ignitionFrontDas.getIgnitionList().then(function (AvailSongDto) {
+            var mappedSongsList = ignitionFrontDas.mapGetAvailSongsDto(AvailSongDto);
+            console.info("Found: " + mappedSongsList.ignitionAvailSongs.length + " songs.");
+        });
     }
 
 }]);
