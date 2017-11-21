@@ -8,5 +8,6 @@ import lombok.Data;
 @Data
 public class AvailSongDto {
 
-    private String availSongFragmentUri;
+    // Add /ignition/rest/play/
+    private String availSongId;
 }

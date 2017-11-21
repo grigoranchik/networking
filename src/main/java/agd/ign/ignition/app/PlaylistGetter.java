@@ -15,8 +15,8 @@ import java.nio.file.StandardCopyOption;
  */
 public class PlaylistGetter {
 
-     private static final String STORAGE_PATH = "down";
-    //public static final String STORAGE_PATH = "g:\\env\\media";
+    //private static final String STORAGE_PATH = "down";
+    public static final String STORAGE_PATH = "g:\\env\\media";
 
     private static final String PLAYLIST_FILE_NAME = "playlist.m3u8";
     private static final String META_FILE_NAME = "metadata.json";
@@ -46,18 +46,26 @@ public class PlaylistGetter {
         return new File(STORAGE_PATH).toPath();
     }
 
-    public static String getSongBasePath(String songId) {
-        String rv = new File(STORAGE_PATH + File.separator + songId).toPath().toAbsolutePath().toString();
+    public static Path getSongBasePath(String songId) {
+        return new File(STORAGE_PATH + File.separator + songId).toPath().toAbsolutePath();
+    }
+
+    public static Path getSongFragmentPath(String songId, String fileName) {
+        return new File(STORAGE_PATH + File.separator + songId + File.separator + fileName).toPath().toAbsolutePath();
+    }
+
+    public static String getSongBasePathStr(String songId) {
+        String rv = getSongBasePath(songId).toString();
         new File(rv).mkdir();
         return rv;
     }
 
     public static Path getSongPlaylistPath(String songId) {
-        return new File(getSongBasePath(songId) + File.separator + PLAYLIST_FILE_NAME).toPath();
+        return new File(getSongBasePathStr(songId) + File.separator + PLAYLIST_FILE_NAME).toPath();
     }
 
     public static Path getSongMetadataPath(String songId) {
-        return new File(getSongBasePath(songId) + File.separator + META_FILE_NAME).toPath();
+        return new File(getSongBasePathStr(songId) + File.separator + META_FILE_NAME).toPath();
     }
 
     public static String getMp3FileName(int i) {
@@ -65,7 +73,7 @@ public class PlaylistGetter {
     }
 
     public static Path getSongMp3Path(int i, String songId) {
-        return new File(getSongBasePath(songId) + File.separator + getMp3FileName(i)).toPath();
+        return new File(getSongBasePathStr(songId) + File.separator + getMp3FileName(i)).toPath();
     }
 
     /**
