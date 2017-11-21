@@ -13,6 +13,12 @@
     <br />
     <br />
 
+    <button ng-click="mainCtrl.onPlayNextRecording()">
+        NEXT &gt;
+    </button>
+
+    <hr />
+
     <div ng-repeat="availSong in mainCtrl.availableMappedSongsList">
         <a href="javascript:void(0)" ng-click="mainCtrl.onPlaySelectedSong(availSong)">{{availSong.ignitionAvailSongId}}</a>
     </div>

@@ -5,6 +5,7 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
     var vm = this;
 
     vm.availableMappedSongsList = [];
+    vm.currentPlayingRecordingIdx = -1;
 
     vm.initIgnitionFront = function () {
         init();
@@ -24,8 +25,21 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
         startPlayingSongsFromIndex(0);
     };
 
+    vm.onPlayNextRecording = function () {
+        var idx = vm.currentPlayingRecordingIdx;
+        var nextIdx = (idx + 1) < vm.availableMappedSongsList.length ? idx + 1 : 0;
+        startPlayingSongsFromIndex(nextIdx);
+    };
+
+    //
+    //
+    //
+
 
     function startPlayingSongsFromIndex(idx) {
+
+        vm.currentPlayingRecordingIdx = idx;
+
         var firstSong = vm.availableMappedSongsList[idx];
 
         var audio = ignitionFrontDas.playSongFragment(firstSong.ignitionAvailSongId);
@@ -34,10 +48,6 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
             startPlayingSongsFromIndex(nextIdx);
         }, true);
     }
-
-    //
-    //
-    //
 
     function init() {
         ignitionFrontDas.getIgnitionServerVersion().then(function (AboutIgnitionDto) {
