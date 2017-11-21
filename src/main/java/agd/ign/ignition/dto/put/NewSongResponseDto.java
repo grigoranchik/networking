@@ -1,4 +1,4 @@
-package agd.ign.ignition.dto;
+package agd.ign.ignition.dto.put;
 
 import lombok.Data;
 

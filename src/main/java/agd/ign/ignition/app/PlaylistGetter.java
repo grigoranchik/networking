@@ -1,6 +1,6 @@
 package agd.ign.ignition.app;
 
-import agd.ign.ignition.dto.NewSongDto;
+import agd.ign.ignition.dto.put.NewSongDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +15,8 @@ import java.nio.file.StandardCopyOption;
  */
 public class PlaylistGetter {
 
-   // private static final String STORAGE_PATH = "down";
-    private static final String STORAGE_PATH = "g:\\env\\media";
+     private static final String STORAGE_PATH = "down";
+    //public static final String STORAGE_PATH = "g:\\env\\media";
 
     private static final String PLAYLIST_FILE_NAME = "playlist.m3u8";
     private static final String META_FILE_NAME = "metadata.json";
@@ -40,6 +40,10 @@ public class PlaylistGetter {
 
     public static String getSongId(String url) {
         return StringUtils.substringBetween(url, PL_FILE_NAME_PREFIX, PL_FILE_NAME_POSTFIX);
+    }
+
+    public static Path getAbsoluteStoragePath() {
+        return new File(STORAGE_PATH).toPath();
     }
 
     public static String getSongBasePath(String songId) {

@@ -3,8 +3,8 @@ package agd.ign.ignition.ctr;
 import agd.ign.ignition.app.PlaylistGetter;
 import agd.ign.ignition.app.PlaylistReader;
 import agd.ign.ignition.dto.AboutIgnitionDto;
-import agd.ign.ignition.dto.NewSongDto;
-import agd.ign.ignition.dto.NewSongResponseDto;
+import agd.ign.ignition.dto.put.NewSongDto;
+import agd.ign.ignition.dto.put.NewSongResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController()
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/rest")
-public class MainController {
+public class PostSongRestController {
 
     // http://localhost:8090/ignition/rest/about
     // https://localhost/ignition/rest/about
