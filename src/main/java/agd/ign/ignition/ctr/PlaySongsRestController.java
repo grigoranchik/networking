@@ -23,7 +23,7 @@ public class PlaySongsRestController {
 
     // https://localhost/ignition/rest/play/23cS6M2r9CA7.128.mp3
     @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
-    public void play(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException {
+    public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException {
 
         File songFragment = PlaylistGetter.getSongFragmentPath(songId, "2.mp3").toFile();
         InputStream in = new FileInputStream(songFragment);
@@ -37,7 +37,7 @@ public class PlaySongsRestController {
     // https://localhost/ignition/rest/list
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public GetAvailSongsDto list() {
+    public GetAvailSongsDto listSongs() {
 
         GetAvailSongsDto rv = new GetAvailSongsDto();
 

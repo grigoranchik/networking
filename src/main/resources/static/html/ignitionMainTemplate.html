@@ -7,4 +7,11 @@
     <hr>
     <h1>{{'ign.resource.hello' | translate }} {{yourName}}!</h1>
 
+
+    -= {{mainCtrl.availableMappedSongsList.length}} =-
+
+    <div ng-repeat="availSong in mainCtrl.availableMappedSongsList">
+        <a href="javascript:void(0)" ng-click="mainCtrl.onPlaySelectedSong(availSong)">{{availSong.ignitionAvailSongId}}</a>
+    </div>
+
 </div>

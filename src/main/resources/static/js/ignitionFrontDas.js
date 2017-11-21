@@ -24,17 +24,21 @@ IGNITION_FRONT_APP.service('ignitionFrontDas', ['$rootScope', '$http', '$q', fun
     };
 
     srv.mapGetAvailSongsDto = function (GetAvailSongsDto) {
-        return {
-            ignitionAvailSongs: _.map(GetAvailSongsDto['availableSongsList'], function (AvailSongDto) {
-                return srv.mapAvailSongDto(AvailSongDto);
-            })
-        }
+        return _.map(GetAvailSongsDto['availableSongsList'], function (AvailSongDto) {
+            return srv.mapAvailSongDto(AvailSongDto);
+        })
     };
 
     srv.mapAvailSongDto = function (AvailSongDto) {
         return {
             ignitionAvailSongId: AvailSongDto['availSongId']
         }
+    };
+
+    srv.getSongFragment = function (songId) {
+        return restDoGet('/ignition/rest/play/' + songId, function (deferred, bytes) {
+            deferred.resolve(bytes);
+        });
     };
 
     //

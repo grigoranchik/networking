@@ -4,8 +4,17 @@
 IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'ignitionFrontDas', function ($scope, $timeout, ignitionFrontDas) {
     var vm = this;
 
+    vm.availableMappedSongsList = [];
+
     vm.initIgnitionFront = function () {
         init();
+    };
+
+    vm.onPlaySelectedSong = function (song) {
+        var songId = song.ignitionAvailSongId;
+        ignitionFrontDas.getSongFragment(songId).then(function (bytes) {
+            console.info("Downloaded: " + bytes.length + " for song " + songId);
+        });
     };
 
     //
@@ -20,8 +29,8 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
 
 
         ignitionFrontDas.getIgnitionList().then(function (AvailSongDto) {
-            var mappedSongsList = ignitionFrontDas.mapGetAvailSongsDto(AvailSongDto);
-            console.info("Found: " + mappedSongsList.ignitionAvailSongs.length + " songs.");
+            vm.availableMappedSongsList = ignitionFrontDas.mapGetAvailSongsDto(AvailSongDto);
+            console.info("Found: " + vm.availableMappedSongsList.length + " songs.");
         });
     }
 
