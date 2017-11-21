@@ -1,18 +1,13 @@
-
 /**
  *
  */
-IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', function () {
-
+IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'ignitionFrontDas', function ($scope, $timeout, ignitionFrontDas) {
     var vm = this;
 
-    sayIgnitionHello();
+    debugger;
 
-    //
-    //
-    //
-
-    function sayIgnitionHello(){
+    vm.sayIgnitionHello = function () {
         console.info("Hello..");
     }
-});
+
+}]);
