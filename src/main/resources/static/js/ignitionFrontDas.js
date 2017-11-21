@@ -6,24 +6,28 @@ IGNITION_FRONT_APP.service('ignitionFrontDas', ['$rootScope', '$http', '$q', fun
 
 
     srv.getIgnitionServerVersion = function () {
-        var deferred = $q.defer();
-        var promise = $http.get('/ignition/rest/about');
-        promise.then(function (response) {
-            var AboutIgnitionDto = response.data;
-            deferred.resolve(mapAboutIgnitionDto(AboutIgnitionDto));
+        return restDoGet('/ignition/rest/about', function (deferred, AboutIgnitionDto) {
+            deferred.resolve(AboutIgnitionDto);
         });
-        return deferred.promise;
     };
 
-
-    //
-    //
-    //
-
-    function mapAboutIgnitionDto(AboutIgnitionDto) {
+    srv.mapAboutIgnitionDto = function (AboutIgnitionDto) {
         return {
             ignitionVersion: AboutIgnitionDto['version']
         }
+    };
+
+    //
+    //
+    //
+
+    function restDoGet(uri, resolveCallBack) {
+        var deferred = $q.defer();
+        var promise = $http.get(uri);
+        promise.then(function (response) {
+            resolveCallBack(deferred, response.data)
+        });
+        return deferred.promise;
     }
 
 }]);

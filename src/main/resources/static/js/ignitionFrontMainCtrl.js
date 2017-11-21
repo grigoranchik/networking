@@ -13,8 +13,9 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
     //
 
     function init() {
-        ignitionFrontDas.getIgnitionServerVersion().then(function (mappedAboutIgnitionDto) {
-            console.info("Server version: " + mappedAboutIgnitionDto.ignitionVersion);
+        ignitionFrontDas.getIgnitionServerVersion().then(function (AboutIgnitionDto) {
+            var mappedAboutInfo = ignitionFrontDas.mapAboutIgnitionDto(AboutIgnitionDto);
+            console.info("Server version: " + mappedAboutInfo.ignitionVersion);
         });
     }
 
