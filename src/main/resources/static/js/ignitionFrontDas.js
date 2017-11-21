@@ -41,9 +41,23 @@ IGNITION_FRONT_APP.service('ignitionFrontDas', ['$rootScope', '$http', '$q', fun
         });
     };
 
-    srv.playSongFragment = function(songId){
+    var AUDIO;
+    srv.playSongFragment = function (songId) {
+
         var uri = '/ignition/rest/play/' + songId;
-        new Audio(uri).play()
+
+        if (!AUDIO) {
+            AUDIO = new Audio();
+            AUDIO.volume = 0.3;
+            AUDIO.loop = false;
+        }
+
+        AUDIO.src = uri;
+        AUDIO.play();
+
+        console.info("Playing recording: " + songId);
+
+        return AUDIO;
     };
 
     //

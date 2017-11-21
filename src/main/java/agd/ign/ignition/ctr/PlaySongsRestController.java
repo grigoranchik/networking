@@ -25,7 +25,7 @@ public class PlaySongsRestController {
     @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
     public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException {
 
-        File songFragment = PlaylistGetter.getSongFragmentPath(songId, "2.mp3").toFile();
+        File songFragment = PlaylistGetter.getSongFragmentPath(songId, "4.mp3").toFile();
         InputStream in = new FileInputStream(songFragment);
 
         response.setContentType("audio/mp3");

@@ -12,12 +12,28 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
 
     vm.onPlaySelectedSong = function (song) {
         var songId = song.ignitionAvailSongId;
+
         /*ignitionFrontDas.getSongFragment(songId).then(function (bytes) {
             console.info("Downloaded: " + bytes.length + " for song " + songId);
         });*/
 
-        ignitionFrontDas.playSongFragment(songId);
+        var audio = ignitionFrontDas.playSongFragment(songId);
     };
+
+    vm.onPlayAllAvailableSongs = function () {
+        startPlayingSongsFromIndex(0);
+    };
+
+
+    function startPlayingSongsFromIndex(idx) {
+        var firstSong = vm.availableMappedSongsList[idx];
+
+        var audio = ignitionFrontDas.playSongFragment(firstSong.ignitionAvailSongId);
+        audio.addEventListener('ended', function () {
+            var nextIdx = (idx + 1) < vm.availableMappedSongsList.length ? idx + 1 : 0;
+            startPlayingSongsFromIndex(nextIdx);
+        }, true);
+    }
 
     //
     //
