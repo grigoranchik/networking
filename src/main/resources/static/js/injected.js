@@ -20,6 +20,8 @@ function sendDataToServerIf() {
 
 function sendDataToServer(songData) {
 
+    var songTitle = songData.foundSongTitle;
+
     $.ajax({
         type: 'POST',
         url: IGNITION_SERVER_URL,
@@ -37,10 +39,10 @@ function sendDataToServer(songData) {
 
         },
         success: function (AbstractResponse) {
-            logInfo("Sending succeed");
+            logInfo("Sent: " + songTitle);
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            logInfo("Sending filed...");
+            logInfo("Sending filed: " + songTitle + " " + thrownError);
         },
         complete: function () {
 
@@ -48,7 +50,7 @@ function sendDataToServer(songData) {
         contentType: "application/json; charset=utf-8",
         cache: false,
         dataType: 'json',
-        timeout: 1000
+        timeout: 10 * 1000 // 10 sec
     });
 }
 
@@ -124,7 +126,7 @@ function watchSongTitle() {
 }
 
 function init() {
-    console.info("ignition script init.");
+    logInfo("ignition script init.");
     watchSongTitle();
     registerRequestInterceptor(onXhrRequest);
 }
@@ -138,7 +140,7 @@ function getEmptySongData() {
 }
 
 function logInfo(message) {
-    console.info("sc-cjs: " + message);
+    console.info("------> " + message);
 }
 
 init();
