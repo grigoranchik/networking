@@ -25,10 +25,17 @@ public class PlaySongsRestController {
     @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
     public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException {
 
-        File songFragment = PlaylistGetter.getSongFragmentPath(songId, "4.mp3").toFile();
+        boolean isOpus = StringUtils.endsWithIgnoreCase(songId, ".opus");
+
+        File songFragment = PlaylistGetter.getSongFragmentPath(songId, isOpus ? "4.opus" : "4.mp3").toFile();
         InputStream in = new FileInputStream(songFragment);
 
-        response.setContentType("audio/mp3");
+        if (isOpus) {
+            response.setContentType("audio/ogg");
+        } else {
+            response.setContentType("audio/mp3");
+        }
+
         IOUtils.copy(in, response.getOutputStream());
 
         in.close();
