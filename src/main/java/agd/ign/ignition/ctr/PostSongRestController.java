@@ -1,11 +1,14 @@
 package agd.ign.ignition.ctr;
 
+import agd.ign.ignition.AsyncService;
 import agd.ign.ignition.app.PlaylistGetter;
 import agd.ign.ignition.app.PlaylistReader;
 import agd.ign.ignition.dto.AboutIgnitionDto;
 import agd.ign.ignition.dto.put.NewSongDto;
 import agd.ign.ignition.dto.put.NewSongResponseDto;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,11 @@ import java.util.List;
 @RestController()
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/rest")
+@Setter
 public class PostSongRestController {
+
+    @Autowired
+    private AsyncService asyncService;
 
     // http://localhost:8090/ignition/rest/about
     // https://localhost/ignition/rest/about
@@ -28,7 +35,8 @@ public class PostSongRestController {
     // https://zalizniak.com/ignition/rest/about
     @RequestMapping(value = "/about", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public AboutIgnitionDto about() {
+    public AboutIgnitionDto about() throws InterruptedException {
+        asyncService.myEndpoint();
         return new AboutIgnitionDto();
     }
 

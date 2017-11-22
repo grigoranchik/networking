@@ -5,6 +5,7 @@ import agd.ign.ignition.dto.get.AvailSongDto;
 import agd.ign.ignition.dto.get.GetAvailSongsDto;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,9 @@ public class PlaySongsRestController {
     // https://localhost/ignition/rest/play/23cS6M2r9CA7.128.mp3
     @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
     public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException, InterruptedException {
+
+
+        asyncDownload();
 
         boolean isOpus = StringUtils.endsWithIgnoreCase(songId, ".opus");
 
@@ -67,5 +71,11 @@ public class PlaySongsRestController {
         }
 
         return rv;
+    }
+
+
+    @Async("threadPoolTaskExecutor")
+    public void asyncDownload() {
+        System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
     }
 }
