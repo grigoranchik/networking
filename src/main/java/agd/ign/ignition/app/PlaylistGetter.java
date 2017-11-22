@@ -15,13 +15,15 @@ import java.nio.file.StandardCopyOption;
  */
 public class PlaylistGetter {
 
-    //private static final String STORAGE_PATH = "down";
-    public static final String STORAGE_PATH = "g:\\env\\media";
+    private static final String STORAGE_PATH = "down";
+    //public static final String STORAGE_PATH = "g:\\env\\media";
 
     private static final String PLAYLIST_FILE_NAME = "playlist.m3u8";
     private static final String META_FILE_NAME = "metadata.json";
 
     private static final String PL_FILE_NAME_PREFIX = "https://cf-hls-media.sndcdn.com/playlist/";
+    private static final String PL_FILE_NAME_PREFIX_OP = "https://cf-hls-opus-media.sndcdn.com/playlist/";
+
     private static final String PL_FILE_NAME_POSTFIX = "/playlist.m3u8?Policy";
 
     /**
@@ -39,7 +41,12 @@ public class PlaylistGetter {
     }
 
     public static String getSongId(String url) {
-        return StringUtils.substringBetween(url, PL_FILE_NAME_PREFIX, PL_FILE_NAME_POSTFIX);
+        String mp3Id = StringUtils.substringBetween(url, PL_FILE_NAME_PREFIX, PL_FILE_NAME_POSTFIX);
+        if (StringUtils.isNotBlank(mp3Id)) {
+            return mp3Id;
+        }
+
+        return StringUtils.substringBetween(url, PL_FILE_NAME_PREFIX_OP, PL_FILE_NAME_POSTFIX);
     }
 
     public static Path getAbsoluteStoragePath() {

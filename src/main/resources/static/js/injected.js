@@ -1,19 +1,34 @@
+/**
+ *
+ */
 
+var IGNITION_SERVER_URL = "https://localhost/ignition/rest/song/new";
+// var IGNITION_SERVER_URL = "https://192.168.0.103/ignition/rest/song/new";
 
-function sendDataToServer(sTitle, sUrl, sPlayListUrl){
+var SONG_DATA = getEmptySongData();
 
-    var requestUrl = "https://localhost/ignition/rest/song/new";
-    // var requestUrl = "https://192.168.0.103/ignition/rest/song/new";
+function sendDataToServerIf() {
+    if (SONG_DATA.foundSongUrl != null
+        && SONG_DATA.foundSongTitle != null
+        && SONG_DATA.foundSongPlaylistUrl != null) {
 
+        sendDataToServer(SONG_DATA);
 
-    var callAttachedXhr = $.ajax({
+        debugger;
+        SONG_DATA = getEmptySongData();
+    }
+}
+
+function sendDataToServer(songData) {
+
+    $.ajax({
         type: 'POST',
-        url: requestUrl,
+        url: IGNITION_SERVER_URL,
         async: true,
         data: JSON.stringify({
-            scCjsSongTitle: sTitle,
-            scCjsSongUrl: sUrl,
-            scCjsSongPlayListUrl: sPlayListUrl
+            scCjsSongTitle: songData.foundSongTitle,
+            scCjsSongUrl: songData.foundSongUrl,
+            scCjsSongPlayListUrl: songData.foundSongPlaylistUrl
         }),
         headers: {
             'Accept': 'application/json',
@@ -38,73 +53,93 @@ function sendDataToServer(sTitle, sUrl, sPlayListUrl){
     });
 }
 
-function onNewSondPlaying(sngTitle, sngUrl, sngPlayListUrl) {
-    logInfo("[[[" + sngTitle + "]]] " + sngUrl + " (((" + sngPlayListUrl + ")))");
+function registerRequestInterceptor(callBack) {
 
-    sendDataToServer(sngTitle, sngUrl, sngPlayListUrl);
+    var open = window.XMLHttpRequest.prototype.open,
+        send = window.XMLHttpRequest.prototype.send,
+        onReadyStateChange;
+
+    function openReplacement(method, url, async, user, password) {
+        try {
+            callBack(url);
+        } catch (err) {
+            console.error(err);
+        }
+        return open.apply(this, arguments);
+    }
+
+    function sendReplacement(data) {
+        // console.warn('Sending HTTP request data : ', data);
+
+        if (this.onreadystatechange) {
+            this._onreadystatechange = this.onreadystatechange;
+        }
+        this.onreadystatechange = onReadyStateChangeReplacement;
+
+        return send.apply(this, arguments);
+    }
+
+    function onReadyStateChangeReplacement() {
+        // console.warn('HTTP request ready state changed : ' + this.readyState);
+        if (this._onreadystatechange) {
+            return this._onreadystatechange.apply(this, arguments);
+        }
+    }
+
+    window.XMLHttpRequest.prototype.open = openReplacement;
+    window.XMLHttpRequest.prototype.send = sendReplacement;
 }
 
-function logInfo(message){
+function onNewPlayListLoaded(playListUrl) {
+    SONG_DATA.foundSongPlaylistUrl = playListUrl;
+    sendDataToServerIf();
+}
+
+function onSongTitleChanged(songURL, songTitle) {
+    SONG_DATA.foundSongUrl = songURL;
+    SONG_DATA.foundSongTitle = songTitle;
+    sendDataToServerIf();
+}
+
+function onXhrRequest(url) {
+    if (url.indexOf("m3u") > -1) {
+        onNewPlayListLoaded(url);
+    }
+}
+
+function watchSongTitle() {
+    setInterval(function () {
+        //debugger;
+
+        var songDiv = $('div.playbackSoundBadge__title');
+        var songLink = songDiv.find('a');
+
+        var songTitle = songLink.attr('title');
+        var songUri = songLink.attr('href');
+
+        var songURL = 'https://soundcloud.com' + songUri;
+
+        if (SONG_DATA.foundSongUrl != songURL) {
+            onSongTitleChanged(songURL, songTitle);
+        }
+    }, 50);
+}
+
+function init() {
+    watchSongTitle();
+    registerRequestInterceptor(onXhrRequest);
+}
+
+function getEmptySongData() {
+    return {
+        foundSongUrl: null,
+        foundSongTitle: null,
+        foundSongPlaylistUrl: null
+    };
+}
+
+function logInfo(message) {
     console.info("sc-cjs: " + message);
 }
 
-var lastSongUrl = null;
-var lastSongTitle = null;
-var lastSongPlaylistUrl = null;
-
-
-setInterval(function(){
-    //debugger;
-
-    var songDiv = $('div.playbackSoundBadge__title');
-    var songLink = songDiv.find('a');
-
-    var songTitle = songLink.attr('title');
-    var songUri =  songLink.attr('href');
-
-    var songURL = 'https://soundcloud.com' + songUri;
-
-    if(lastSongUrl != songURL){
-        //logInfo(songTitle + " -- " + songURL);
-        lastSongUrl = songURL;
-        lastSongTitle = songTitle;
-    }
-}, 50);
-
-
-
-var open = window.XMLHttpRequest.prototype.open,
-    send = window.XMLHttpRequest.prototype.send,
-    onReadyStateChange;
-
-function openReplacement(method, url, async, user, password) {
-    var syncMode = async !== false ? 'async' : 'sync';
-    if(url.indexOf("m3u") > -1) {
-        lastSongPlaylistUrl = url;
-        onNewSondPlaying(lastSongTitle, lastSongUrl, lastSongPlaylistUrl);
-    }
-    return open.apply(this, arguments);
-}
-
-function sendReplacement(data) {
-    // console.warn('Sending HTTP request data : ', data);
-
-    if(this.onreadystatechange) {
-        this._onreadystatechange = this.onreadystatechange;
-    }
-    this.onreadystatechange = onReadyStateChangeReplacement;
-
-    return send.apply(this, arguments);
-}
-
-function onReadyStateChangeReplacement() {
-    // console.warn('HTTP request ready state changed : ' + this.readyState);
-    if(this._onreadystatechange) {
-        return this._onreadystatechange.apply(this, arguments);
-    }
-}
-
-window.XMLHttpRequest.prototype.open = openReplacement;
-window.XMLHttpRequest.prototype.send = sendReplacement;
-
-
+init();
