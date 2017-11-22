@@ -46,18 +46,26 @@ IGNITION_FRONT_APP.service('ignitionFrontDas', ['$rootScope', '$http', '$q', fun
 
         var uri = '/ignition/rest/play/' + songId;
 
-        if (!AUDIO) {
-            AUDIO = new Audio();
-            AUDIO.volume = 0.3;
-            AUDIO.loop = false;
-        }
+        var audio = new Audio();
+        audio.volume = 0.3;
+        audio.loop = false;
+        audio.src = uri;
+        audio.play();
 
-        AUDIO.src = uri;
-        AUDIO.play();
+        audio.addEventListener('playing', function () {
+            console.info("!!! Started playing: " + songId);
+
+            if (AUDIO) {
+                AUDIO.pause();
+            }
+
+            AUDIO = audio;
+
+        }, true);
 
         console.info("Playing recording: " + songId);
 
-        return AUDIO;
+        return audio;
     };
 
     //

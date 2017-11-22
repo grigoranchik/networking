@@ -23,7 +23,7 @@ public class PlaySongsRestController {
 
     // https://localhost/ignition/rest/play/23cS6M2r9CA7.128.mp3
     @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
-    public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException {
+    public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException, InterruptedException {
 
         boolean isOpus = StringUtils.endsWithIgnoreCase(songId, ".opus");
 
@@ -35,6 +35,8 @@ public class PlaySongsRestController {
         } else {
             response.setContentType("audio/mp3");
         }
+
+        // Thread.sleep(500);
 
         IOUtils.copy(in, response.getOutputStream());
 
