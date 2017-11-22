@@ -14,7 +14,6 @@ function sendDataToServerIf() {
 
         sendDataToServer(SONG_DATA);
 
-        debugger;
         SONG_DATA = getEmptySongData();
     }
 }
@@ -109,7 +108,6 @@ function onXhrRequest(url) {
 
 function watchSongTitle() {
     setInterval(function () {
-        //debugger;
 
         var songDiv = $('div.playbackSoundBadge__title');
         var songLink = songDiv.find('a');
