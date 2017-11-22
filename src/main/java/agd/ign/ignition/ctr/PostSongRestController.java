@@ -5,6 +5,7 @@ import agd.ign.ignition.app.PlaylistReader;
 import agd.ign.ignition.dto.AboutIgnitionDto;
 import agd.ign.ignition.dto.put.NewSongDto;
 import agd.ign.ignition.dto.put.NewSongResponseDto;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class PostSongRestController {
         try {
 
             String songId = PlaylistGetter.getSongId(url);
+            boolean isOpus = StringUtils.endsWithIgnoreCase(songId, ".opus");
 
             Path playlistFilePath = PlaylistGetter.getSongPlaylistPath(songId);
             if (playlistFilePath.toFile().exists()) {
@@ -52,11 +54,19 @@ public class PostSongRestController {
 
             int i = 0;
             for (String partUrl : partUrls) {
-                Path mp3Path = PlaylistGetter.getSongMp3Path(i, songId);
-                String playListFilePathStr = mp3Path.toAbsolutePath().toString();
-                System.out.println("Saving mp3: " + playListFilePathStr + " (" + (i + 1) + " of " + partUrls.size() + ")");
 
-                PlaylistGetter.downloadMp3(mp3Path, partUrl);
+                Path fragmentPath;
+                if (isOpus) {
+                    fragmentPath = PlaylistGetter.getSongOpusPath(i, songId);
+                } else {
+                    fragmentPath = PlaylistGetter.getSongMp3Path(i, songId);
+                }
+
+                String playListFilePathStr = fragmentPath.toAbsolutePath().toString();
+                System.out.println("Saving fragment: " + playListFilePathStr + " (" + (i + 1) + " of " + partUrls.size() + ")");
+
+                PlaylistGetter.downloadFragment(fragmentPath, partUrl);
+
                 i++;
             }
 
