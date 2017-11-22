@@ -76,6 +76,6 @@ public class PlaySongsRestController {
 
     @Async("threadPoolTaskExecutor")
     public void asyncDownload() {
-        System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
+        // System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
     }
 }
