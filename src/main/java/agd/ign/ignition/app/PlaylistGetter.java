@@ -15,8 +15,8 @@ import java.nio.file.StandardCopyOption;
  */
 public class PlaylistGetter {
 
-    //private static final String STORAGE_PATH = "down";
-    public static final String STORAGE_PATH = "g:\\env\\media";
+    private static final String STORAGE_PATH = "down";
+    //public static final String STORAGE_PATH = "g:\\env\\media";
 
     private static final String PLAYLIST_FILE_NAME = "playlist.m3u8";
     private static final String META_FILE_NAME = "metadata.json";

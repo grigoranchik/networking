@@ -36,9 +36,9 @@ public class PlaySongsRestController {
 
         response.setContentType("audio/mp3");
 
-        response.addHeader("Cache-Control", CacheControl.maxAge(10, TimeUnit.DAYS).cachePublic().getHeaderValue());
+        response.addHeader("Cache-Control", CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic().getHeaderValue());
 
-        Thread.sleep(500);
+        //Thread.sleep(500);
 
         IOUtils.copy(in, response.getOutputStream());
 

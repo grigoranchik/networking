@@ -17,18 +17,32 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
     };
 
     vm.onPlayAllAvailableSongs = function () {
-        startPlayingSongsFromIndex(0);
+        vm.onPlayNextRecording();
+        setInterval(function () {
+            vm.onPlayNextRecording();
+        }, 3000);
     };
 
     vm.onPlayNextRecording = function () {
         var idx = vm.currentPlayingRecordingIdx;
         var nextIdx = (idx + 1) < vm.availableMappedSongsList.length ? idx + 1 : 0;
-        startPlayingSongsFromIndex(nextIdx);
+        vm.currentPlayingRecordingIdx = nextIdx;
+        playCurrentRecordingIdx();
     };
 
     //
     //
     //
+
+    function playCurrentRecordingIdx() {
+        var songByIdx = vm.availableMappedSongsList[   vm.currentPlayingRecordingIdx ];
+        var audio = playSongFragment(songByIdx.ignitionAvailSongId);
+
+        /*audio.addEventListener('ended', function () {
+            var nextIdx = (idx + 1) < vm.availableMappedSongsList.length ? idx + 1 : 0;
+            startPlayingSongsFromIndex(nextIdx);
+        }, true);*/
+    }
 
     var AUDIO;
 
@@ -89,9 +103,9 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
             vm.availableMappedSongsList = ignitionFrontDas.mapGetAvailSongsDto(AvailSongDto);
             console.info("Found: " + vm.availableMappedSongsList.length + " songs.");
 
-            _.forEach(vm.availableMappedSongsList, function (song, i) {
+            /*_.forEach(vm.availableMappedSongsList, function (song, i) {
                 preCache(song);
-            });
+            });*/
         });
     }
 
