@@ -13,12 +13,7 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
 
     vm.onPlaySelectedSong = function (song) {
         var songId = song.ignitionAvailSongId;
-
-        /*ignitionFrontDas.getSongFragment(songId).then(function (bytes) {
-            console.info("Downloaded: " + bytes.length + " for song " + songId);
-        });*/
-
-        var audio = ignitionFrontDas.playSongFragment(songId);
+        playSongFragment(songId);
     };
 
     vm.onPlayAllAvailableSongs = function () {
@@ -35,6 +30,33 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
     //
     //
 
+    var AUDIO;
+
+    function playSongFragment(songId) {
+
+        var uri = '/ignition/rest/play/' + songId;
+
+        var audio = new Audio();
+        audio.volume = 0.3;
+        audio.loop = false;
+        audio.src = uri;
+        audio.play();
+
+        audio.addEventListener('playing', function () {
+            console.info("!!! Started playing: " + songId);
+
+            if (AUDIO) {
+                AUDIO.pause();
+            }
+
+            AUDIO = audio;
+
+        }, true);
+
+        console.info("Playing recording: " + songId);
+
+        return audio;
+    }
 
     function startPlayingSongsFromIndex(idx) {
 
@@ -42,7 +64,7 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
 
         var firstSong = vm.availableMappedSongsList[idx];
 
-        var audio = ignitionFrontDas.playSongFragment(firstSong.ignitionAvailSongId);
+        var audio = playSongFragment(firstSong.ignitionAvailSongId);
         audio.addEventListener('ended', function () {
             var nextIdx = (idx + 1) < vm.availableMappedSongsList.length ? idx + 1 : 0;
             startPlayingSongsFromIndex(nextIdx);
