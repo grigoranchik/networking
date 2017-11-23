@@ -5,6 +5,7 @@ import agd.ign.ignition.dto.get.AvailSongDto;
 import agd.ign.ignition.dto.get.GetAvailSongsDto;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.CacheControl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author aillusions
@@ -22,25 +24,21 @@ import java.io.InputStream;
 @RequestMapping("/rest")
 public class PlaySongsRestController {
 
-    // https://localhost/ignition/rest/play/23cS6M2r9CA7.128.mp3
+    // https://localhost/ignition/rest/play/2EFq0rCJ3Zz3.128.mp3
     @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
     public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException, InterruptedException {
 
 
         asyncDownload();
 
-        boolean isOpus = StringUtils.endsWithIgnoreCase(songId, ".opus");
-
-        File songFragment = PlaylistGetter.getSongFragmentPath(songId, isOpus ? "4.opus" : "4.mp3").toFile();
+        File songFragment = PlaylistGetter.getSongFragmentPath(songId, "4.mp3").toFile();
         InputStream in = new FileInputStream(songFragment);
 
-        if (isOpus) {
-            response.setContentType("audio/ogg");
-        } else {
-            response.setContentType("audio/mp3");
-        }
+        response.setContentType("audio/mp3");
 
-        // Thread.sleep(500);
+        response.addHeader("Cache-Control", CacheControl.maxAge(10, TimeUnit.DAYS).cachePublic().getHeaderValue());
+
+        Thread.sleep(500);
 
         IOUtils.copy(in, response.getOutputStream());
 

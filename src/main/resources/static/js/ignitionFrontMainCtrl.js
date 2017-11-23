@@ -58,6 +58,13 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
         return audio;
     }
 
+    function preCache(song) {
+        var songId = song.ignitionAvailSongId;
+        var uri = '/ignition/rest/play/' + songId;
+        var audio = new Audio();
+        audio.src = uri;
+    }
+
     function startPlayingSongsFromIndex(idx) {
 
         vm.currentPlayingRecordingIdx = idx;
@@ -81,6 +88,10 @@ IGNITION_FRONT_APP.controller('ignitionFrontMainCtrl', ['$scope', '$timeout', 'i
         ignitionFrontDas.getIgnitionList().then(function (AvailSongDto) {
             vm.availableMappedSongsList = ignitionFrontDas.mapGetAvailSongsDto(AvailSongDto);
             console.info("Found: " + vm.availableMappedSongsList.length + " songs.");
+
+            _.forEach(vm.availableMappedSongsList, function (song, i) {
+                preCache(song);
+            });
         });
     }
 

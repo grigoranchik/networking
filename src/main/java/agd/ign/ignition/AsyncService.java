@@ -25,7 +25,6 @@ public class AsyncService {
         try {
 
             String songId = PlaylistGetter.getSongId(url);
-            boolean isOpus = StringUtils.endsWithIgnoreCase(songId, ".opus");
 
             Path playlistFilePath = PlaylistGetter.getSongPlaylistPath(songId);
             if (playlistFilePath.toFile().exists()) {
@@ -38,12 +37,7 @@ public class AsyncService {
             int i = 0;
             for (String partUrl : partUrls) {
 
-                Path fragmentPath;
-                if (isOpus) {
-                    fragmentPath = PlaylistGetter.getSongOpusPath(i, songId);
-                } else {
-                    fragmentPath = PlaylistGetter.getSongMp3Path(i, songId);
-                }
+                Path fragmentPath = PlaylistGetter.getSongMp3Path(i, songId);
 
                 String playListFilePathStr = fragmentPath.toAbsolutePath().toString();
                 System.out.println("Saving fragment: " + playListFilePathStr + " (" + (i + 1) + " of " + partUrls.size() + ")");

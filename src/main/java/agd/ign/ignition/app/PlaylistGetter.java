@@ -22,7 +22,6 @@ public class PlaylistGetter {
     private static final String META_FILE_NAME = "metadata.json";
 
     private static final String PL_FILE_NAME_PREFIX = "https://cf-hls-media.sndcdn.com/playlist/";
-    private static final String PL_FILE_NAME_PREFIX_OP = "https://cf-hls-opus-media.sndcdn.com/playlist/";
 
     private static final String PL_FILE_NAME_POSTFIX = "/playlist.m3u8?Policy";
 
@@ -47,7 +46,7 @@ public class PlaylistGetter {
             return mp3Id;
         }
 
-        return StringUtils.substringBetween(url, PL_FILE_NAME_PREFIX_OP, PL_FILE_NAME_POSTFIX);
+        throw new RuntimeException("Unexpected url: " + url);
     }
 
     public static Path getAbsoluteStoragePath() {
@@ -80,18 +79,9 @@ public class PlaylistGetter {
         return "" + i + ".mp3";
     }
 
-    public static String getOpusFileName(int i) {
-        return "" + i + ".opus";
-    }
-
     public static Path getSongMp3Path(int i, String songId) {
         return new File(getSongBasePathStr(songId) + File.separator + getMp3FileName(i)).toPath();
     }
-
-    public static Path getSongOpusPath(int i, String songId) {
-        return new File(getSongBasePathStr(songId) + File.separator + getOpusFileName(i)).toPath();
-    }
-
 
     /**
      * https://cf-hls-media.sndcdn.com/media/0/31762/EniKZcU3hSCh.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLWhscy1tZWRpYS5zbmRjZG4uY29tL21lZGlhLyovKi9FbmlLWmNVM2hTQ2guMTI4Lm1wMyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTUxMTEwNjYwM319fV19&Signature=i7q~eQjY2IOi7dhC-GZR8cx-Em2o~kQBs7afM28UaxKGbHTGPcn4RWy5tjEgjfh6FbLoJ9m6s20jeTSZUnOQohKwGt8IDcAt7E15UQyjlxjht8rD9CuTbRjetAbYHUfv1JQRxZSimcbHU48QJh2dWa-EB1TFQPWAEDPCv580PXFokfrK-O4GSUctKMn4EjgqPKrzyKhWktoIG6zFnJv9rhWZc8oHLQ3iNOVC33UX8h8vkvxdAoFtC0SA~vNbSKx-orbNgMNrlyMuHQw2Jk3P4nJhSezG0h3JNQ6JakGN1QkTlC91q~z-exsr14TiJ2YlfmukWT8a4ENAVFgX6Bellw__&Key-Pair-Id=APKAJAGZ7VMH2PFPW6UQ
