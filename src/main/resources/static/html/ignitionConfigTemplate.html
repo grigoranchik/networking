@@ -1,7 +1,23 @@
+<div ng-controller="ignitionPlayConfigCtrl as cfgCtrl">
 
+    Configure your experience:
 
-<div ng-controller="ignitionFrontConfigCtrl as cfgCtrl">
+    <div>
+        <label> Length (sec):
+            <input type="number" ng-model="cfgCtrl.playbackConfig.playbackSnippetLengthSec"/>
+        </label>
+    </div>
 
-    Config...
+    <div>
+        <label> Snippets (n):
+            <input type="number" ng-model="cfgCtrl.playbackConfig.playbackOneRecSnippetsNum"/>
+        </label>
+    </div>
+
+    <div>
+        <label> Volume (%):
+            <input type="number" ng-model="cfgCtrl.playbackConfig.playbackVolumePercent"/>
+        </label>
+    </div>
 
 </div>
