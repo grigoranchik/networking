@@ -5,7 +5,10 @@ IGNITION_FRONT_APP.value('ignitionPlayConfig', {
     ignitionCfgSnippetLength: 0,
     ignitionCfgSnippetsNum: 0,
     ignitionCfgVolumePercent: 0,
-    getIgnitionCfgVolume: function () {
+    getIgnitionCfgSnippedLengthMs: function () {
+        return (this.ignitionCfgSnippetLength * 1000);
+    },
+    getIgnitionCfgPlaybackVolume: function () {
         return (this.ignitionCfgVolumePercent / 100);
     }
 });
