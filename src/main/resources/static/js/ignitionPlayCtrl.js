@@ -29,7 +29,7 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
 
     vm.onPlayAllAvailableSongs = function () {
         vm.ignitionPlayPMA.isPlayingAll = true;
-        vm.onPlayNextRecording();
+        findAndPlayNextRecording();
     };
 
     vm.onPausePlayingAllAvailableSongs = function () {
@@ -39,7 +39,29 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
         }
     };
 
-    vm.onPlayNextRecording = function () {
+    vm.onSkipPlayingCurrentSong = function () {
+
+        var currRecIdx = currentlyPlayingRec.currentRecordingIdx;
+        var nextRecIdx = (currRecIdx + 1) < ignitionAvailRecsSrv.availableMappedSongsList.length ? currRecIdx + 1 : 0;
+
+        currentlyPlayingRec = {
+            currentRecordingIdx: nextRecIdx,
+            currentRecordingFragIdx: -1
+        };
+
+        CURRENT_PLAYING_AUDIO.isSkipped = true;
+
+        findAndPlayNextRecording();
+    };
+
+
+    ignitionAvailRecsSrv.initAvailRecsSrv();
+
+    //
+    //
+    //
+
+    function findAndPlayNextRecording() {
 
         findNextPlayingRec();
 
@@ -57,23 +79,17 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
             CURRENT_PLAYING_AUDIO = audio;
 
             setTimeout(function () {
-                if (vm.ignitionPlayPMA.isPlayingAll) {
-                    vm.onPlayNextRecording();
+                if (vm.ignitionPlayPMA.isPlayingAll && !audio.isSkipped) {
+                    findAndPlayNextRecording();
                 }
             }, ignitionPlayConfig.getIgnitionCfgSnippetLengthMs());
 
         }, true);
 
         /*audio.addEventListener('ended', function () {
-            vm.onPlayNextRecording();
+            vm.findAndPlayNextRecording();
         }, true);*/
-    };
-
-    ignitionAvailRecsSrv.initAvailRecsSrv();
-
-    //
-    //
-    //
+    }
 
     function findNextPlayingRec() {
 

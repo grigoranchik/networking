@@ -1,11 +1,24 @@
 <div ng-controller="ignitionPlayCtrl as playCtrl">
 
     <div ng-switch="playCtrl.ignitionPlayPMA.isPlayingAll">
-        <button ng-switch-when="false" ng-click="playCtrl.onPlayAllAvailableSongs()" style="width:150px; height:60px; background-color:#0073a0">
+        <button ng-switch-when="false" ng-click="playCtrl.onPlayAllAvailableSongs()"
+                style="width:150px; height:60px; background-color:#0073a0">
             {{'ign.resource.play.all' | translate}}
         </button>
-        <button ng-switch-when="true" ng-click="playCtrl.onPausePlayingAllAvailableSongs()" style="width:150px; height:60px; background-color:#0073a0">
-            Stop
-        </button>
+
+        <div ng-switch-when="true">
+
+
+            <button ng-click="playCtrl.onPausePlayingAllAvailableSongs()" style="width:150px; height:60px; background-color:#0073a0">
+                Stop ||
+            </button>
+
+            <br />
+
+            <button ng-click="playCtrl.onSkipPlayingCurrentSong()"  style="width:150px; height:60px; background-color:#0073a0">
+                Skip >
+            </button>
+
+        </div>
     </div>
 </div>
