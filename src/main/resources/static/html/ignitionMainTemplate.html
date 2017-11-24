@@ -2,15 +2,19 @@
 
 <div ng-controller="ignitionFrontMainCtrl as mainCtrl" ng-init="mainCtrl.initIgnitionFront()">
 
-    <label>Name:</label>
-    <input type="text" ng-model="yourName" placeholder="Enter a name here">
-    <hr>
-    <h1>{{'ign.resource.hello' | translate }} {{yourName}}!</h1>
+    <h1>{{'ign.resource.hello' | translate }} dear user</h1>
+
+    <ng-include src=" 'html/ignitionConfigTemplate.html' "></ng-include>
+
+    <hr />
+
+    <button ng-click="mainCtrl.onPlayAllAvailableSongs()"style="width:150px; height:60px; background-color:#0073a0">
+        {{'ign.resource.play.all' | translate}} ( {{mainCtrl.availableMappedSongsList.length}} )
+    </button>
 
 
-    <a href="javascript:void(0)" ng-click="mainCtrl.onPlayAllAvailableSongs()">{{'ign.resource.play.all' | translate}} ( {{mainCtrl.availableMappedSongsList.length}} )</a>
 
-    <br />
+<!--    <br />
     <br />
 
     <button ng-click="mainCtrl.onPlayNextRecording()" style="width:150px; height:60px; background-color:#0073a0">
@@ -21,6 +25,6 @@
 
     <div ng-repeat="availSong in mainCtrl.availableMappedSongsList">
         <a href="javascript:void(0)" ng-click="mainCtrl.onPlaySelectedSong(availSong)">{{availSong.ignitionAvailSongId}}</a>
-    </div>
+    </div>-->
 
 </div>
