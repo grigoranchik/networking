@@ -4,7 +4,10 @@
 IGNITION_FRONT_APP.value('ignitionPlayConfig', {
     ignitionCfgSnippetLength: 0,
     ignitionCfgSnippetsNum: 0,
-    ignitionCfgVolumePercent: 0
+    ignitionCfgVolumePercent: 0,
+    getIgnitionCfgVolume: function () {
+        return (this.ignitionCfgVolumePercent / 100);
+    }
 });
 
 /**
@@ -35,7 +38,7 @@ IGNITION_FRONT_APP.controller('ignitionPlayConfigCtrl', ['$scope', '$timeout', '
         },
         function (newVal, oldVal) {
             $timeout(function () {
-                
+
                 validateConfig(newVal);
 
                 ignitionPlayConfig.ignitionCfgSnippetLength = vm.playbackConfig.playbackSnippetLengthSec;
@@ -44,6 +47,19 @@ IGNITION_FRONT_APP.controller('ignitionPlayConfigCtrl', ['$scope', '$timeout', '
             });
 
         }, true);
+
+
+    vm.onSoftVolumeClick = function () {
+        vm.playbackConfig.playbackVolumePercent = 10;
+    };
+
+    vm.onModerateVolumeClick = function () {
+        vm.playbackConfig.playbackVolumePercent = 50;
+    };
+
+    vm.onLoudVolumeClick = function () {
+        vm.playbackConfig.playbackVolumePercent = 90;
+    };
 
     //
     //

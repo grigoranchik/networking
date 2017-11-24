@@ -6,6 +6,20 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
 
     vm.currentPlayingRecordingIdx = -1;
 
+    var AUDIO;
+
+    $scope.$watch(function () {
+            return ignitionPlayConfig;
+        },
+        function (newVal, oldVal) {
+            $timeout(function () {
+                if (AUDIO) {
+                    AUDIO.volume = ignitionPlayConfig.getIgnitionCfgVolume();
+                }
+            });
+
+        }, true);
+
     vm.onPlayAllAvailableSongs = function () {
         vm.onPlayNextRecording();
         setInterval(function () {
@@ -27,7 +41,7 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
     //
 
     function playCurrentRecordingIdx() {
-        var songByIdx = ignitionAvailRecsSrv.availableMappedSongsList[   vm.currentPlayingRecordingIdx ];
+        var songByIdx = ignitionAvailRecsSrv.availableMappedSongsList[vm.currentPlayingRecordingIdx];
         var audio = playSongFragment(songByIdx.ignitionAvailSongId);
 
         /*audio.addEventListener('ended', function () {
@@ -36,14 +50,13 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
         }, true);*/
     }
 
-    var AUDIO;
 
     function playSongFragment(songId) {
 
         var uri = '/ignition/rest/play/' + songId;
 
         var audio = new Audio();
-        audio.volume = 0.3;
+        audio.volume = ignitionPlayConfig.getIgnitionCfgVolume();
         audio.loop = false;
         audio.src = uri;
         audio.play();

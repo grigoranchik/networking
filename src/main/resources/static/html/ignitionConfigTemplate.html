@@ -18,6 +18,18 @@
         <label> Volume (%):
             <input type="number" ng-model="cfgCtrl.playbackConfig.playbackVolumePercent"/>
         </label>
+
+        <button ng-click="cfgCtrl.onSoftVolumeClick()">
+            Soft
+        </button>
+
+        <button  ng-click="cfgCtrl.onModerateVolumeClick()">
+            Mod
+        </button>
+
+        <button  ng-click="cfgCtrl.onLoudVolumeClick()">
+            Loud
+        </button>
     </div>
 
 </div>
