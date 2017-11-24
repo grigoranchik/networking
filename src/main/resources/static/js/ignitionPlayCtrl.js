@@ -4,6 +4,10 @@
 IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'ignitionFrontDas', 'ignitionPlayConfig', 'ignitionAvailRecsSrv', function ($scope, $timeout, ignitionFrontDas, ignitionPlayConfig, ignitionAvailRecsSrv) {
     var vm = this;
 
+    vm.ignitionPlayPMA = {
+        isPlayingAll: false
+    };
+
     var currentlyPlayingRec = {
         currentRecordingIdx: 0,
         currentRecordingFragIdx: -1
@@ -24,7 +28,15 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
         }, true);
 
     vm.onPlayAllAvailableSongs = function () {
+        vm.ignitionPlayPMA.isPlayingAll = true;
         vm.onPlayNextRecording();
+    };
+
+    vm.onPausePlayingAllAvailableSongs = function () {
+        vm.ignitionPlayPMA.isPlayingAll = false;
+        if (CURRENT_PLAYING_AUDIO) {
+            CURRENT_PLAYING_AUDIO.pause();
+        }
     };
 
     vm.onPlayNextRecording = function () {
@@ -45,7 +57,9 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
             CURRENT_PLAYING_AUDIO = audio;
 
             setTimeout(function () {
-                vm.onPlayNextRecording();
+                if (vm.ignitionPlayPMA.isPlayingAll) {
+                    vm.onPlayNextRecording();
+                }
             }, ignitionPlayConfig.getIgnitionCfgSnippetLengthMs());
 
         }, true);

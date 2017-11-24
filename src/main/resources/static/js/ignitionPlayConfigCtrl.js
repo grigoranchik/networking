@@ -6,7 +6,7 @@ IGNITION_FRONT_APP.controller('ignitionPlayConfigCtrl', ['$scope', '$timeout', '
 
     var ValidationConst = {
         MIN_SNIPPET_LENGTH_SEC: 1,
-        MAX_SNIPPET_LENGTH_SEC: 5,
+        MAX_SNIPPET_LENGTH_SEC: 10,
 
         MIN_SNIPPETS_NUM: 1,
         MAX_SNIPPETS_NUM: 6,
@@ -16,8 +16,8 @@ IGNITION_FRONT_APP.controller('ignitionPlayConfigCtrl', ['$scope', '$timeout', '
     };
 
     vm.playbackConfig = {
-        playbackSnippetLengthSec: 3,
-        playbackOneRecSnippetsNum: 1,
+        playbackSnippetLengthSec: 2,
+        playbackOneRecSnippetsNum: 2,
         playbackVolumePercent: 30
     };
 
