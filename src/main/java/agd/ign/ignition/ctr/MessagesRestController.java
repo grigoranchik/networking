@@ -24,6 +24,7 @@ public class MessagesRestController {
     @ResponseBody
     public NewMessageResponseDto sendMessage(@RequestBody NewMessageDto dto) throws IOException {
         MESSAGES.add(dto.getNewMessageText());
+        System.out.println("Added message: " + dto.getNewMessageText());
         return new NewMessageResponseDto();
     }
 
@@ -34,6 +35,9 @@ public class MessagesRestController {
         GetAvailMessagesDto rv = new GetAvailMessagesDto();
 
         rv.getAvailableMessagesList().addAll(MESSAGES);
+
+        System.out.println("Returned messages: " + MESSAGES.size());
+
         return rv;
     }
 }
