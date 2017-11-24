@@ -20,6 +20,11 @@ public class MessagesRestController {
 
     private static List<String> MESSAGES = Collections.synchronizedList(new LinkedList<>());
 
+    static {
+        MESSAGES.add("Привет");
+        MESSAGES.add("Гриша лох...");
+    }
+
     @RequestMapping(value = "/messages/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public NewMessageResponseDto sendMessage(@RequestBody NewMessageDto dto) throws IOException {
