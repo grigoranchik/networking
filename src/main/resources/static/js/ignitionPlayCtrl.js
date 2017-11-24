@@ -4,7 +4,10 @@
 IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'ignitionFrontDas', 'ignitionPlayConfig', 'ignitionAvailRecsSrv', function ($scope, $timeout, ignitionFrontDas, ignitionPlayConfig, ignitionAvailRecsSrv) {
     var vm = this;
 
-    vm.currentPlayingRecordingIdx = -1;
+    var currentlyPlayingRec = {
+        currentRecordingIdx: 0,
+        currentRecordingFragIdx: -1
+    };
 
     var CURRENT_PLAYING_AUDIO;
 
@@ -25,17 +28,26 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
     };
 
     vm.onPlayNextRecording = function () {
-        var idx = vm.currentPlayingRecordingIdx;
-        var nextIdx = (idx + 1) < ignitionAvailRecsSrv.availableMappedSongsList.length ? idx + 1 : 0;
-        vm.currentPlayingRecordingIdx = nextIdx;
 
-        var songByIdx = ignitionAvailRecsSrv.availableMappedSongsList[vm.currentPlayingRecordingIdx];
-        var audio = playSongFragment(songByIdx.ignitionAvailSongId);
+        findNextPlayingRec();
+
+        var songByIdx = ignitionAvailRecsSrv.availableMappedSongsList[currentlyPlayingRec.currentRecordingIdx];
+        var fragIdx = currentlyPlayingRec.currentRecordingFragIdx;
+
+        var audio = playSongFragment(songByIdx.ignitionAvailSongId, fragIdx);
 
         audio.addEventListener('playing', function () {
+
+            if (CURRENT_PLAYING_AUDIO) {
+                CURRENT_PLAYING_AUDIO.pause();
+            }
+
+            CURRENT_PLAYING_AUDIO = audio;
+
             setTimeout(function () {
                 vm.onPlayNextRecording();
-            }, ignitionPlayConfig.getIgnitionCfgSnippedLengthMs());
+            }, ignitionPlayConfig.getIgnitionCfgSnippetLengthMs());
+
         }, true);
 
         /*audio.addEventListener('ended', function () {
@@ -49,23 +61,35 @@ IGNITION_FRONT_APP.controller('ignitionPlayCtrl', ['$scope', '$timeout', 'igniti
     //
     //
 
-    function playSongFragment(songId) {
+    function findNextPlayingRec() {
 
-        var uri = '/ignition/rest/play/' + songId;
+        var currRecIdx = currentlyPlayingRec.currentRecordingIdx;
+        var currFragIdx = currentlyPlayingRec.currentRecordingFragIdx;
+
+        var nextRecIdx;
+        var nextFragIdx;
+
+        if (currFragIdx >= (ignitionPlayConfig.getIgnitionCfgSnippetsNum() - 1)) {
+            nextRecIdx = (currRecIdx + 1) < ignitionAvailRecsSrv.availableMappedSongsList.length ? currRecIdx + 1 : 0;
+            nextFragIdx = 0;
+        } else {
+            nextRecIdx = currRecIdx;
+            nextFragIdx = currFragIdx + 1;
+        }
+
+        currentlyPlayingRec.currentRecordingIdx = nextRecIdx;
+        currentlyPlayingRec.currentRecordingFragIdx = nextFragIdx;
+    }
+
+    function playSongFragment(songId, fragId) {
+
+        var uri = '/ignition/rest/play/' + songId + "/" + fragId;
 
         var audio = new Audio();
         configureVolume(audio);
         audio.loop = false;
         audio.src = uri;
         audio.play();
-
-        audio.addEventListener('playing', function () {
-            if (CURRENT_PLAYING_AUDIO) {
-                CURRENT_PLAYING_AUDIO.pause();
-            }
-
-            CURRENT_PLAYING_AUDIO = audio;
-        }, true);
 
         console.info("Playing recording: " + songId);
 

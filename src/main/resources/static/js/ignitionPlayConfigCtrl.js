@@ -1,21 +1,6 @@
 /**
  *
  */
-IGNITION_FRONT_APP.value('ignitionPlayConfig', {
-    ignitionCfgSnippetLength: 0,
-    ignitionCfgSnippetsNum: 0,
-    ignitionCfgVolumePercent: 0,
-    getIgnitionCfgSnippedLengthMs: function () {
-        return (this.ignitionCfgSnippetLength * 1000);
-    },
-    getIgnitionCfgPlaybackVolume: function () {
-        return (this.ignitionCfgVolumePercent / 100);
-    }
-});
-
-/**
- *
- */
 IGNITION_FRONT_APP.controller('ignitionPlayConfigCtrl', ['$scope', '$timeout', 'ignitionFrontDas', 'ignitionPlayConfig', function ($scope, $timeout, ignitionFrontDas, ignitionPlayConfig) {
     var vm = this;
 
@@ -24,7 +9,7 @@ IGNITION_FRONT_APP.controller('ignitionPlayConfigCtrl', ['$scope', '$timeout', '
         MAX_SNIPPET_LENGTH_SEC: 5,
 
         MIN_SNIPPETS_NUM: 1,
-        MAX_SNIPPETS_NUM: 3,
+        MAX_SNIPPETS_NUM: 6,
 
         MIN_VOLUME_PERCENT: 0,
         MAX_VOLUME_PERCENT: 100,

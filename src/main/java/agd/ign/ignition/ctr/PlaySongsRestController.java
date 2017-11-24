@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,13 +26,19 @@ import java.util.concurrent.TimeUnit;
 public class PlaySongsRestController {
 
     // https://localhost/ignition/rest/play/2EFq0rCJ3Zz3.128.mp3
-    @RequestMapping(value = "/play/{songId:.+}", method = RequestMethod.GET)
-    public void getSongFragment(@PathVariable(name = "songId") String songId, HttpServletResponse response) throws IOException, InterruptedException {
+    @RequestMapping(value = "/play/{songId:.+}/{fragIdx}", method = RequestMethod.GET)
+    public void getSongFragment(@PathVariable(name = "songId") String songId,
+                                @PathVariable(name = "fragIdx") Integer fragIdx,
+                                HttpServletResponse response) throws IOException, InterruptedException {
 
 
         asyncDownload();
 
-        File songFragment = PlaylistGetter.getSongFragmentPath(songId, "4.mp3").toFile();
+        Path fragPath = PlaylistGetter.getSongFragmentPath(songId, String.valueOf(4 + fragIdx) + ".mp3");
+
+        System.out.println("Transferring: " + fragPath);
+
+        File songFragment = fragPath.toFile();
         InputStream in = new FileInputStream(songFragment);
 
         response.setContentType("audio/mp3");
