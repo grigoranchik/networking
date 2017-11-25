@@ -28,7 +28,7 @@ public class MessagesRestController {
     @RequestMapping(value = "/messages/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public NewMessageResponseDto sendMessage(@RequestBody NewMessageDto dto) throws IOException {
-        if (StringUtils.isNotBlank(dto.getNewMessageText())) {
+        if (StringUtils.isNotBlank(dto.getNewMessageText()) && !MESSAGES.contains(dto.getNewMessageText())) {
             MESSAGES.add(dto.getNewMessageText());
         }
 
