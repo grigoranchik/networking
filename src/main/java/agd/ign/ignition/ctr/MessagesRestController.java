@@ -3,6 +3,7 @@ package agd.ign.ignition.ctr;
 import agd.ign.ignition.dto.msg.GetAvailMessagesDto;
 import agd.ign.ignition.dto.msg.NewMessageDto;
 import agd.ign.ignition.dto.msg.NewMessageResponseDto;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,7 +28,10 @@ public class MessagesRestController {
     @RequestMapping(value = "/messages/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public NewMessageResponseDto sendMessage(@RequestBody NewMessageDto dto) throws IOException {
-        MESSAGES.add(dto.getNewMessageText());
+        if (StringUtils.isNotBlank(dto.getNewMessageText())) {
+            MESSAGES.add(dto.getNewMessageText());
+        }
+
         System.out.println("Added message: " + dto.getNewMessageText());
         return new NewMessageResponseDto();
     }
