@@ -1,5 +1,6 @@
 package agd.ign.ignition.ctr;
 
+import agd.ign.ignition.dto.msg.AvailMessageDto;
 import agd.ign.ignition.dto.msg.GetAvailMessagesDto;
 import agd.ign.ignition.dto.msg.NewMessageDto;
 import agd.ign.ignition.dto.msg.NewMessageResponseDto;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author aillusions
@@ -18,18 +20,17 @@ import java.util.List;
 @RequestMapping("/rest")
 public class MessagesRestController {
 
-    private static List<String> MESSAGES = Collections.synchronizedList(new LinkedList<>());
+    private static List<NewMessageDto> MESSAGES = Collections.synchronizedList(new LinkedList<>());
 
     static {
-        MESSAGES.add("Привет");
-        MESSAGES.add("Гриша лох...");
+        MESSAGES.add(new NewMessageDto("Alex", "Гриша лох, ггг"));
     }
 
     @RequestMapping(value = "/messages/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public NewMessageResponseDto sendMessage(@RequestBody NewMessageDto dto) throws IOException {
         if (StringUtils.isNotBlank(dto.getNewMessageText()) && !MESSAGES.contains(dto.getNewMessageText())) {
-            MESSAGES.add(dto.getNewMessageText());
+            MESSAGES.add(dto);
         }
 
         System.out.println("Added message: " + dto.getNewMessageText());
@@ -42,7 +43,7 @@ public class MessagesRestController {
     public GetAvailMessagesDto getAvailMessages() {
         GetAvailMessagesDto rv = new GetAvailMessagesDto();
 
-        rv.getAvailableMessagesList().addAll(MESSAGES);
+        rv.getAvailableMessagesList().addAll(MESSAGES.stream().map(m -> new AvailMessageDto(m.getNewMessageText(), m.getNewMessageFrom())).collect(Collectors.toList()));
 
         System.out.println("Returned messages: " + MESSAGES.size());
 

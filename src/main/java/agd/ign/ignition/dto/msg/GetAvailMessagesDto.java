@@ -11,5 +11,5 @@ import java.util.List;
 @Data
 public class GetAvailMessagesDto {
 
-    private List<String> availableMessagesList = new LinkedList<>();
+    private List<AvailMessageDto> availableMessagesList = new LinkedList<>();
 }

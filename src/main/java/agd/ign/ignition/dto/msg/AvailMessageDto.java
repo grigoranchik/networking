@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class NewMessageDto {
-    private String newMessageText;
-    private String newMessageFrom;
+public class AvailMessageDto {
+    private String existingMessageText;
+    private String existingMessageFrom;
 }
