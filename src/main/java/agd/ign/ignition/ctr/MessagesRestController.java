@@ -3,6 +3,8 @@ package agd.ign.ignition.ctr;
 import agd.ign.ignition.dto.msg.GetAvailMessagesDto;
 import agd.ign.ignition.dto.msg.NewMessageDto;
 import agd.ign.ignition.dto.msg.NewMessageResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -44,5 +46,10 @@ public class MessagesRestController {
         System.out.println("Returned messages: " + MESSAGES.size());
 
         return rv;
+    }
+
+    @RequestMapping(value = "/messages/**", method = RequestMethod.OPTIONS)
+    public ResponseEntity handle() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

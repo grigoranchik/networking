@@ -33,8 +33,6 @@ public class PlaySongsRestController {
                                 HttpServletResponse response) throws IOException, InterruptedException {
 
 
-        asyncDownload();
-
         Path fragPath = PlaylistGetter.getSongFragmentPath(songId, String.valueOf(4 + fragIdx) + ".mp3");
 
         System.out.println("Transferring: " + fragPath);
@@ -79,9 +77,4 @@ public class PlaySongsRestController {
         return rv;
     }
 
-
-    @Async("threadPoolTaskExecutor")
-    public void asyncDownload() {
-        // System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
-    }
 }
