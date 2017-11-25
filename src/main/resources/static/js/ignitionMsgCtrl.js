@@ -5,7 +5,7 @@ IGNITION_FRONT_APP.controller('ignitionMsgCtrl', ['$scope', '$timeout', '$http',
 
     $scope.allChatMessages = [];
 
-    $scope.newMessageMyName = null;
+    $scope.newMessageMyName = "Alex";
     $scope.newMessageText = null;
 
     $scope.onSendNewMessageClicked = function () {
