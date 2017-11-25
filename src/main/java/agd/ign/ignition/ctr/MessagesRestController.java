@@ -23,7 +23,7 @@ public class MessagesRestController {
     private static List<NewMessageDto> MESSAGES = Collections.synchronizedList(new LinkedList<>());
 
     static {
-        MESSAGES.add(new NewMessageDto("Alex", "Гриша лох, ггг"));
+        MESSAGES.add(new NewMessageDto("Гриша лох, ггг", "Alex"));
     }
 
     @RequestMapping(value = "/messages/send", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
