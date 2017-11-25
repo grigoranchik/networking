@@ -28,6 +28,4 @@ IGNITION_FRONT_APP.controller('ignitionMsgCtrl', ['$scope', '$timeout', '$http',
         });
     }
 
-    debugger;
-
 }]);
