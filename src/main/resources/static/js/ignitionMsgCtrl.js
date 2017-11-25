@@ -5,10 +5,12 @@ IGNITION_FRONT_APP.controller('ignitionMsgCtrl', ['$scope', '$timeout', '$http',
 
     $scope.allChatMessages = [];
 
+    $scope.newMessageMyName = null;
     $scope.newMessageText = null;
 
     $scope.onSendNewMessageClicked = function () {
-        sendMessageToChat($scope.newMessageText)
+        sendMessageToChat();
+        $scope.newMessageText = null;
     };
 
     function getChatMessages() {
@@ -18,8 +20,11 @@ IGNITION_FRONT_APP.controller('ignitionMsgCtrl', ['$scope', '$timeout', '$http',
         });
     }
 
-    function sendMessageToChat(messageText) {
-        var promise = $http.post('https://176.36.229.152/ignition/rest/messages/send', {newMessageText: messageText}, {});
+    function sendMessageToChat() {
+        var promise = $http.post('https://176.36.229.152/ignition/rest/messages/send', {
+            newMessageText: $scope.newMessageText,
+            newMessageFrom: $scope.newMessageMyName,
+        }, {});
         promise.then(function (response) {
             getChatMessages();
         });
