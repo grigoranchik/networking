@@ -1,16 +1,10 @@
 package agd.ign.ignition.ctr;
 
 
-import agd.ign.ignition.app.PlaylistGetter;
+import agd.ign.ignition.dto.msg.NewMessageResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -35,21 +29,22 @@ public class RestUploadController {
 
     // http://176.36.229.152/ignition/rest/files/upload
     @PostMapping("/files/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadfile) {
+    @ResponseBody
+    public NewMessageResponseDto uploadFile(@RequestParam("file") MultipartFile uploadfile) {
 
         logger.debug("Single file upload!");
 
         if (uploadfile.isEmpty()) {
-            return new ResponseEntity("please select a file!", HttpStatus.OK);
+            return new NewMessageResponseDto();
         }
 
         try {
             saveUploadedFiles(Arrays.asList(uploadfile));
         } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new NewMessageResponseDto();
         }
 
-        return new ResponseEntity("Successfully uploaded - " + uploadfile.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
+        return new NewMessageResponseDto();
     }
 
 
