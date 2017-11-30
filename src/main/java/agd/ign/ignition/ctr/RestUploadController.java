@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * curl -F file=@"C:\\env\\ignition\\README.md" http://localhost:8090/ignition/rest/files/upload
+ * curl -F file=@"C:\\env\\ignition\\README.md" http://176.36.229.152/ignition/rest/files/upload
  */
 @RestController
 @RequestMapping("/rest")
@@ -30,9 +31,9 @@ public class RestUploadController {
     private final Logger logger = LoggerFactory.getLogger(RestUploadController.class);
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = PlaylistGetter.STORAGE_PATH;
+    private static String UPLOADED_FOLDER = "down/";//PlaylistGetter.STORAGE_PATH;
 
-    // 3.1.1 Single file upload
+    // http://176.36.229.152/ignition/rest/files/upload
     @PostMapping("/files/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadfile) {
 
