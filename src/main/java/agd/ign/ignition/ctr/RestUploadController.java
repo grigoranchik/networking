@@ -5,6 +5,7 @@ import agd.ign.ignition.dto.files.AvailFileDto;
 import agd.ign.ignition.dto.files.GetAvailFilesDto;
 import agd.ign.ignition.dto.msg.NewMessageResponseDto;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.CacheControl;
@@ -98,6 +99,10 @@ public class RestUploadController {
         for (File file : listOfFiles) {
 
             if (file.isDirectory()) {
+                continue;
+            }
+
+            if (StringUtils.contains(file.getName(), ".gitkeep")) {
                 continue;
             }
 
