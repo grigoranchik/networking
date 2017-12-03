@@ -38,7 +38,7 @@ public class RestUploadController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "down" + File.separator + "files";
 
-    // http://localhost:8090/ignition/rest/files/download/download.jpg
+    // http://localhost:8090/ignition/rest/files/delete//download.jpg
     @RequestMapping(value = "/files/download/{fileName:.+}", method = RequestMethod.GET)
     public void downloadFile(@PathVariable(name = "fileName") String fileName,
                              HttpServletResponse response) throws IOException, InterruptedException {
@@ -64,7 +64,7 @@ public class RestUploadController {
     }
 
     // http://localhost:8090/ignition/rest/files/upload
-    @PostMapping("/files/upload")
+    @PostMapping(value = "/files/upload", produces = "application/json")
     @ResponseBody
     public OkResponseDto uploadFile(@RequestParam("file") MultipartFile uploadfile) {
 
@@ -123,7 +123,7 @@ public class RestUploadController {
         return rv;
     }
 
-    @PostMapping("/files/delete/{fileName:.+}")
+    @PostMapping(path = "/files/delete/{fileName:.+}", produces = "application/json")
     @ResponseBody
     public OkResponseDto deleteFile(@PathVariable(name = "fileName") String fileName,
                                     HttpServletResponse response) throws IOException, InterruptedException {
