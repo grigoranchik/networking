@@ -3,7 +3,8 @@ package agd.ign.ignition.ctr;
 
 import agd.ign.ignition.dto.files.AvailFileDto;
 import agd.ign.ignition.dto.files.GetAvailFilesDto;
-import agd.ign.ignition.dto.msg.NewMessageResponseDto;
+
+import agd.ign.ignition.dto.files.OkResponseDto;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,9 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +36,7 @@ public class RestUploadController {
     private final Logger logger = LoggerFactory.getLogger(RestUploadController.class);
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "down/files";
+    private static String UPLOADED_FOLDER = "down" + File.separator + "files";
 
     // http://localhost:8090/ignition/rest/files/download/download.jpg
     @RequestMapping(value = "/files/download/{fileName:.+}", method = RequestMethod.GET)
@@ -67,21 +66,21 @@ public class RestUploadController {
     // http://localhost:8090/ignition/rest/files/upload
     @PostMapping("/files/upload")
     @ResponseBody
-    public NewMessageResponseDto uploadFile(@RequestParam("file") MultipartFile uploadfile) {
+    public OkResponseDto uploadFile(@RequestParam("file") MultipartFile uploadfile) {
 
         logger.debug("Single file upload!");
 
         if (uploadfile.isEmpty()) {
-            return new NewMessageResponseDto();
+            return new OkResponseDto();
         }
 
         try {
             saveUploadedFiles(Arrays.asList(uploadfile));
         } catch (IOException e) {
-            return new NewMessageResponseDto();
+            return new OkResponseDto();
         }
 
-        return new NewMessageResponseDto();
+        return new OkResponseDto();
     }
 
     // http://localhost:8090/ignition/rest/files/list
@@ -122,6 +121,29 @@ public class RestUploadController {
         }
 
         return rv;
+    }
+
+    @PostMapping("/files/delete/{fileName:.+}")
+    @ResponseBody
+    public OkResponseDto deleteFile(@PathVariable(name = "fileName") String fileName,
+                                    HttpServletResponse response) throws IOException, InterruptedException {
+
+        logger.debug("Single file delete: " + fileName);
+
+        Path filePath = new File(UPLOADED_FOLDER + File.separator + fileName).toPath().toAbsolutePath();
+
+        try {
+            Files.delete(filePath);
+        } catch (NoSuchFileException x) {
+            System.err.format("%s: no such" + " file or directory%n", fileName);
+        } catch (DirectoryNotEmptyException x) {
+            System.err.format("%s not empty%n", fileName);
+        } catch (IOException x) {
+            // File permission problems are caught here.
+            System.err.println(x);
+        }
+
+        return new OkResponseDto();
     }
 
     //save file
