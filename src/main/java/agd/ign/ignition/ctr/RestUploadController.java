@@ -39,7 +39,7 @@ public class RestUploadController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "down/files";
 
-    // http://localhost:8090/ignition/rest/files/download/README.md
+    // http://localhost:8090/ignition/rest/files/download/download.jpg
     @RequestMapping(value = "/files/download/{fileName:.+}", method = RequestMethod.GET)
     public void downloadFile(@PathVariable(name = "fileName") String fileName,
                              HttpServletResponse response) throws IOException, InterruptedException {
@@ -134,7 +134,7 @@ public class RestUploadController {
             }
 
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            Path path = Paths.get(UPLOADED_FOLDER + File.separator + file.getOriginalFilename());
             Files.write(path, bytes);
 
         }
