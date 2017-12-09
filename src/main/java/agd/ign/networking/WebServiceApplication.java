@@ -1,4 +1,4 @@
-package agd.ign.ignition;
+package agd.ign.networking;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executor;
  * @author aillusions
  */
 @SpringBootApplication
-@ComponentScan("agd.ign.ignition")
+@ComponentScan("agd.ign.networking")
 @Configuration
 @EnableAsync
 //@EntityScan("com.delivery.domain")

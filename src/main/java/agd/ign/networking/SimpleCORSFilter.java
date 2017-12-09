@@ -1,4 +1,4 @@
-package agd.ign.ignition;
+package agd.ign.networking;
 
 /**
  * @author aillusions

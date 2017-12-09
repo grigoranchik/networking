@@ -1,10 +1,10 @@
-package agd.ign.ignition.ctr;
+package agd.ign.networking.ctr;
 
 
-import agd.ign.ignition.dto.files.AvailFileDto;
-import agd.ign.ignition.dto.files.GetAvailFilesDto;
+import agd.ign.networking.dto.files.AvailFileDto;
+import agd.ign.networking.dto.files.GetAvailFilesDto;
 
-import agd.ign.ignition.dto.files.OkResponseDto;
+import agd.ign.networking.dto.files.OkResponseDto;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
