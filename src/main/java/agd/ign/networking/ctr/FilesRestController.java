@@ -25,15 +25,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * curl -F file=@"./README.md" http://localhost:8090/ignition/rest/files/upload
- * curl -F file=@"./README.md" http://176.36.229.152/ignition/rest/files/upload
- * curl -F file=@"./images.jpg" http://176.36.229.152/ignition/rest/files/upload
- */
+ * curl -F file=@"./README.md" http://localhost:8090/networking/rest/files/upload
+*/
 @RestController
 @RequestMapping("/rest")
-public class RestUploadController {
+public class FilesRestController {
 
-    private final Logger logger = LoggerFactory.getLogger(RestUploadController.class);
+    private final Logger logger = LoggerFactory.getLogger(FilesRestController.class);
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "down" + File.separator + "files";

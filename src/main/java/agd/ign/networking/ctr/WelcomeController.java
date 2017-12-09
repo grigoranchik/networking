@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *  http://176.36.229.152:80/ignition/
+ * http://localhost:8090/networking/
  * @author aillusions
  */
 @Controller

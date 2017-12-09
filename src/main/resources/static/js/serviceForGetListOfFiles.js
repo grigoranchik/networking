@@ -21,7 +21,7 @@ myApp.service('serviceForGetListOfFiles', ['$timeout', '$q', '$http', '$rootScop
         //$rootScope.$bradcast('myFilesListChangingEvent_Shown_Text', true);
 
 
-        var promise = $http.get('http://176.36.229.152:80/ignition/rest/files/list');
+        var promise = $http.get('/networking/rest/files/list');
         promise.then(function (response) {
             srv.serviceForGetListObj.listOfFiles = response.data.availableFilesList;
             deferred.resolve(srv.serviceForGetListObj.listOfFiles);

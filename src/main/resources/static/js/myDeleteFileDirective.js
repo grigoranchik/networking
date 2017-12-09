@@ -14,7 +14,7 @@ myApp.directive('myDeleteFileDirective', ['$http', function ($http) {
                     scope.$emit('myFilesListChangingEvent', true);
 
                     //debugger;
-                    var promise = $http.post('http://176.36.229.152:80/ignition/rest/files/delete/' + elem.availFileName, {});
+                    var promise = $http.post('/ignition/rest/files/delete/' + elem.availFileName, {});
                     promise.then(function (response) {
                         scope.$emit('myFilesListNeedsReloading');
 

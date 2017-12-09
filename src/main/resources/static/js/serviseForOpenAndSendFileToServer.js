@@ -20,7 +20,7 @@ app.service('serviseForOpenAndSendFileToServer', function() {
             if (Ident_file == true) {
                 return;
             }
-            var promise = $http.post('http://176.36.229.152/ignition/rest/files/upload', data, {
+            var promise = $http.post('/ignition/rest/files/upload', data, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             });
