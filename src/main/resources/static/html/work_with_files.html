@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Файлы: отправить/получить</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="work_with_files.js"></script>
+    <script src="fileDateFilter.js"></script>
+    <script src="fileExtensionFilter.js"></script>
+    <script src="myDeleteFileDirective.js"></script>
+    <script src="serviceForGetListOfFiles.js"></script>
+    <link href="css_for_imgGif.css" rel="stylesheet">
+    <script src="bootbox.min.js"></script>
+    <script src="serviseForRename_files.js"></script>
+    <script src="serviseForOpenAndSendFileToServer.js"></script>
+    <script src="date.js"></script>
+</head>
+
+<body ng-controller="mainCtrl">
+    <input type="file" multiple="multiple" accept=".txt,js,image/*">
+    <div class="ajax-reply"></div>
+
+    <table border="1" width="30%" cellpadding="5">
+        <tr>
+            <td><input type="text" ng-model="ng_model_value_of_text_from_searching" name="name" style="color: #777;" value="Имя файла" onfocus="if (this.value == 'Имя файла') {this.value = ''; this.style.color = '#000';}" onblur="if (this.value == '') {this.value = 'Имя файла'; this.style.color = '#777';}" /></td>
+            <td><input type="text" ng-model="ng_model_value_of_text_from_searching" name="name" style="color: #777;" value="Дата создания" onfocus="if (this.value == 'Дата создания') {this.value = ''; this.style.color = '#000';}" onblur="if (this.value == '') {this.value = 'Дата создания'; this.style.color = '#777';}" /></td>
+            <td>Тип</td>
+            <td>Удалить</td>
+        </tr>
+        <div>
+            <tr  ng-repeat="x in availableFilesListObj.listOfFiles | filter:ng_model_value_of_text_from_searching" ng-model="info">
+                <td><div ng-mouseover="link(x)"><a href="http://176.36.229.152:80/ignition/rest/files/download/{{x.availFileName}}">{{ x.availFileName}}</a></div></td>
+                <td>{{ x.availFileDateAddedMilliseconds | fileDateFilter }}</td>
+                <td><img src="{{x.availFileName | fileExtensionFilter }}"></td>
+                <td my-delete-file-directive=""><a href="javascript:void(0)" ng-click="setDelete(x)">delete</a></td>
+            </tr>
+        </div>
+    </table>
+    </br>
+    <div class="hide_fuck_Text_null" ng-if="isAjaxLoaderShown_Text_null"><p>Список элементов пуст</p></div>
+    <div class="hide_fuck" ng-if="isAjaxLoaderShown"><img src="icons/ajax_loader.gif"></div>
+
+
+
+
+</body>
+</html>

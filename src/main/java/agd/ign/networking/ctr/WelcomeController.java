@@ -16,6 +16,7 @@ public class WelcomeController {
     // https://zalizniak.com/ignition
     @RequestMapping("/")
     public String home() {
-        return "html/index.html";
+        //return "html/index.html";
+        return "html/work_with_files.html";
     }
 }
