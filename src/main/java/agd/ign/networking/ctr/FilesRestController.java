@@ -36,7 +36,7 @@ public class FilesRestController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "down" + File.separator + "files";
 
-    // http://localhost:8090/ignition/rest/files/delete//download.jpg
+    // http://localhost:8090/networking/rest/files/delete//download.jpg
     @RequestMapping(value = "/files/download/{fileName:.+}", method = RequestMethod.GET)
     public void downloadFile(@PathVariable(name = "fileName") String fileName,
                              HttpServletResponse response) throws IOException, InterruptedException {
@@ -61,7 +61,7 @@ public class FilesRestController {
         in.close();
     }
 
-    // http://localhost:8090/ignition/rest/files/upload
+    // http://localhost:8090/networking/rest/files/upload
     @PostMapping(value = "/files/upload", produces = "application/json")
     @ResponseBody
     public OkResponseDto uploadFile(@RequestParam("file") MultipartFile uploadfile) {
@@ -81,7 +81,7 @@ public class FilesRestController {
         return new OkResponseDto();
     }
 
-    // http://localhost:8090/ignition/rest/files/list
+    // http://localhost:8090/networking/rest/files/list
     @RequestMapping(value = "/files/list", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public GetAvailFilesDto listFiles() throws IOException {
