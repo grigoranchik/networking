@@ -1,4 +1,4 @@
 /**
  *
  */
-var IGNITION_FRONT_APP = angular.module('ignitionFrontApp', ['pascalprecht.translate']);
+var NET_APP = angular.module('netApp', []);
