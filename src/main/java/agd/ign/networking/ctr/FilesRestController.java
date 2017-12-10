@@ -126,25 +126,11 @@ public class FilesRestController {
 
     @RequestMapping(path = "/files/delete", method = POST, produces = "application/json")
     @ResponseBody
-    public OkResponseDto deleteFile(@RequestBody RemoveFileDto removeFileDto,
-                                    HttpServletResponse response) throws IOException, InterruptedException {
+    public OkResponseDto deleteFile(@RequestBody RemoveFileDto removeFileDto) throws IOException {
 
         String fileName = removeFileDto.getRemoveNaHuyFileName();
-        logger.debug("Single file delete: " + fileName);
-
         Path filePath = new File(UPLOADED_FOLDER + File.separator + fileName).toPath().toAbsolutePath();
-
-        try {
-            Files.delete(filePath);
-        } catch (NoSuchFileException x) {
-            System.err.format("%s: no such" + " file or directory%n", fileName);
-        } catch (DirectoryNotEmptyException x) {
-            System.err.format("%s not empty%n", fileName);
-        } catch (IOException x) {
-            // File permission problems are caught here.
-            System.err.println(x);
-        }
-
+        Files.delete(filePath);
         return new OkResponseDto();
     }
 
