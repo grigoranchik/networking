@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp', []);
 
-myApp.controller('mainCtrl', ['$http', '$scope', 'serviceForGetListOfFiles', function ($http, $scope, serviceForGetListOfFiles,myDeleteFileDirective) {
+myApp.controller('mainCtrl', ['$http', '$scope', 'serviceForGetListOfFiles','serviseForOpenAndSendFileToServer', function ($http, $scope, serviceForGetListOfFiles, serviseForOpenAndSendFileToServer) {
     var files;
     $scope.ng_model_value_of_text_from_searching;
 
@@ -18,7 +18,13 @@ myApp.controller('mainCtrl', ['$http', '$scope', 'serviceForGetListOfFiles', fun
     });
 
 
-    $scope.availableFilesListObj = serviceForGetListOfFiles.serviceForGetListObj;
+
+    //онклик на загрузку и отправку файл на сервер
+    $('input[type=file]').on('change', function () {
+        serviseForOpenAndSendFileToServer.myFunc(this.files);
+    })
+
     $scope.$emit('myFilesListNeedsReloading');
+
 
 }]);

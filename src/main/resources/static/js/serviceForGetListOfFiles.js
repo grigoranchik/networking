@@ -18,16 +18,16 @@ myApp.service('serviceForGetListOfFiles', ['$timeout', '$q', '$http', '$rootScop
     srv.getFilesListFromServer = function () {
         var deferred = $q.defer();
 
-        //$rootScope.$bradcast('myFilesListChangingEvent_Shown_Text', true);
+        //$rootScope.$broadcast('myFilesListChangingEvent_Shown_Text', true);
 
 
-        var promise = $http.get('/networking/rest/files/list');
+        var promise = $http.get('http://localhost:8090/networking/rest/files/list');
         promise.then(function (response) {
             srv.serviceForGetListObj.listOfFiles = response.data.availableFilesList;
             deferred.resolve(srv.serviceForGetListObj.listOfFiles);
             if (srv.serviceForGetListObj.listOfFiles==[0]){//почему из сервиса нельзя отправить эмит?
                 //debugger;
-                $rootScope.$bradcast('myFilesListChangingEvent_Shown_Text', true);
+                $rootScope.$broadcast('myFilesListChangingEvent_Shown_Text', true);
             }
 
         }).catch(function (error) {
