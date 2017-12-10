@@ -1,4 +1,4 @@
-app.service('serviseForOpenAndSendFileToServer', function() {
+myApp.service('serviseForOpenAndSendFileToServer', function() {
     this.myFunc = function (x) {
         // //онклик на загрузку и отправку файл на сервер
         $('input[type=file]').on('change', function () {

@@ -1,4 +1,4 @@
-app.service('serviseForRename_files', function() {
+myApp.service('serviseForRename_files', function() {
     this.myFunc = function (x) {
 
         //функция для смены имени файла

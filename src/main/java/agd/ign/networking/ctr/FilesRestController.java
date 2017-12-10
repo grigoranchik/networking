@@ -5,6 +5,7 @@ import agd.ign.networking.dto.files.AvailFileDto;
 import agd.ign.networking.dto.files.GetAvailFilesDto;
 
 import agd.ign.networking.dto.files.OkResponseDto;
+import agd.ign.networking.dto.files.RemoveFileDto;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -24,9 +25,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 /**
  * curl -F file=@"./README.md" http://localhost:8090/networking/rest/files/upload
-*/
+ */
 @RestController
 @RequestMapping("/rest")
 public class FilesRestController {
@@ -121,11 +124,12 @@ public class FilesRestController {
         return rv;
     }
 
-    @PostMapping(path = "/files/delete/{fileName:.+}", produces = "application/json")
+    @RequestMapping(path = "/files/delete", method = POST, produces = "application/json")
     @ResponseBody
-    public OkResponseDto deleteFile(@PathVariable(name = "fileName") String fileName,
+    public OkResponseDto deleteFile(@RequestBody RemoveFileDto removeFileDto,
                                     HttpServletResponse response) throws IOException, InterruptedException {
 
+        String fileName = removeFileDto.getRemoveNaHuyFileName();
         logger.debug("Single file delete: " + fileName);
 
         Path filePath = new File(UPLOADED_FOLDER + File.separator + fileName).toPath().toAbsolutePath();
