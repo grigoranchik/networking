@@ -9,10 +9,12 @@ myApp.filter('fileDateFilter', function () {
         if (day < 10) day = '0' + day;
         var year = dt.getFullYear();
         //console.log(day+'.'+month+'.'+year);
+
         if (new Date(input).toString('dd.MM.yyyy') == day + '.' + month + '.' + year) {
             return ('today' + new Date(input).toString(' HH:mm'));
         }
-        else if (new Date(input).toString('dd.MM.yyyy') == parseInt(day.substring(1)) + 1 + '.' + month + '.' + year) {
+
+        else  if (new Date(input).toString('dd.MM.yyyy') == parseInt(day.toString().substring(1)) + 1 + '.' + month + '.' + year) {
             return ('tomorrow' + new Date(input).toString(' HH:mm'));
         }
         else

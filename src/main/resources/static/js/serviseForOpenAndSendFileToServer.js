@@ -1,16 +1,16 @@
-myApp.service('serviseForOpenAndSendFileToServer', function() {
+myApp.service('serviseForOpenAndSendFileToServer',['$rootScope','$http', function($rootScope, $http) {
     this.myFunc = function (x) {
         // //онклик на загрузку и отправку файл на сервер
         $('input[type=file]').on('change', function () {
             //$scope.$emit('myFilesListNeedsReloading');
-            files = this.files;
-            $scope.$emit('myFilesListChangingEvent', true);
+            var files = this.files;
+            $rootScope.$emit('myFilesListChangingEvent', true);
             var data = new FormData();
             var Ident_file = false;
             data.append('file', files[0]);
 
-            for (var i = 0; i < $scope.availableFilesListObj.listOfFiles.length; i++) {
-                if ($scope.availableFilesListObj.listOfFiles[i].availFileName == files[0].name) {
+            for (var i = 0; i < $rootScope.availableFilesListObj.listOfFiles.length; i++) {
+                if ($rootScope.availableFilesListObj.listOfFiles[i].availFileName == files[0].name) {
                     alert('файл с таким именем уже существует');
                     Ident_file = true;
                     return;
@@ -25,13 +25,13 @@ myApp.service('serviseForOpenAndSendFileToServer', function() {
                 headers: {'Content-Type': undefined}
             });
             promise.then(function () {
-                $scope.$emit('myFilesListNeedsReloading');
-                $scope.$emit('myFilesListChangingEvent', false);
+                $rootScope.$emit('myFilesListNeedsReloading');
+                $rootScope.$emit('myFilesListChangingEvent', false);
             }).catch(function (error) {
                 console.log(error.status);
-                $scope.$emit('myFilesListChangingEvent', false);
+                $rootScope.$emit('myFilesListChangingEvent', false);
             });
         });
-        return x.toString(16);
+        return ;
     }
-});
+}]);

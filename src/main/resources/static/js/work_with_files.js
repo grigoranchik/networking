@@ -21,8 +21,4 @@ myApp.controller('mainCtrl', ['$http', '$scope', 'serviceForGetListOfFiles', fun
     $scope.availableFilesListObj = serviceForGetListOfFiles.serviceForGetListObj;
     $scope.$emit('myFilesListNeedsReloading');
 
-
-
-
-
 }]);
