@@ -41,7 +41,7 @@
             <tr  ng-repeat="x in availableFilesListObj.listOfFiles | filter:ng_model_value_of_text_from_searching" ng-model="info">
                 <td><div ng-mouseover="link(x)"><a href="/networking/rest/files/download/{{x.availFileName}}">{{ x.availFileName}}</a></div></td>
                 <td>{{ x.availFileDateAddedMilliseconds | fileDateFilter }}</td>
-                <td><img src="{{x.availFileName | fileExtensionFilter }}"></td>
+                <td><img ng-src="{{x.availFileName | fileExtensionFilter}}"></td>
                 <td my-delete-file-directive=""><a href="javascript:void(0)" ng-click="setDelete(x)">delete</a></td>
             </tr>
         </div>
