@@ -1,11 +1,8 @@
 package agd.ign.networking.ctr;
 
 
-import agd.ign.networking.dto.files.AvailFileDto;
-import agd.ign.networking.dto.files.GetAvailFilesDto;
+import agd.ign.networking.dto.files.*;
 
-import agd.ign.networking.dto.files.OkResponseDto;
-import agd.ign.networking.dto.files.RemoveFileDto;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -131,6 +128,20 @@ public class FilesRestController {
         String fileName = removeFileDto.getRemoveNaHuyFileName();
         Path filePath = new File(UPLOADED_FOLDER + File.separator + fileName).toPath().toAbsolutePath();
         Files.delete(filePath);
+        return new OkResponseDto();
+    }
+
+    @RequestMapping(path = "/files/rename", method = POST, produces = "application/json")
+    @ResponseBody
+    public OkResponseDto deleteFile(@RequestBody RenameFileDto renameFileDto) throws IOException {
+
+        String fileName = renameFileDto.getRemoveFileFrom();
+        String newFileName = renameFileDto.getRemoveFileTo();
+
+        Path filePath = new File(UPLOADED_FOLDER + File.separator + fileName).toPath().toAbsolutePath();
+
+        //
+
         return new OkResponseDto();
     }
 
